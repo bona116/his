@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>한국사 개념완성 · 2026-2 지필평가</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+:root{
+  --paper:#eef1e6; --paper-card:#f7f8f1; --ink:#20241f; --ink-soft:#5c6457;
+  --teal:#1d6b63; --teal-deep:#123f3a; --vermilion:#b8442c; --vermilion-deep:#8c3220;
+  --ochre:#c98a2a; --ochre-soft:rgba(201,138,42,.24); --line:rgba(32,36,31,.14);
+  --good:#2f7a4f; --bad:#b8442c; --A:#8a6a3f; --B:#1d6b63; --C:#b8442c;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+body{font-family:'Noto Sans KR',sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;}
+h1,h2,h3,h4{font-family:'Nanum Myeongjo',serif;margin:0;line-height:1.3;}
+button{font-family:inherit;}
+#app{max-width:560px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;padding-bottom:36px;}
+
+.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--paper) 80%, rgba(238,241,230,0));padding:10px 16px 4px;display:flex;align-items:center;gap:10px;min-height:46px;}
+.backbtn{border:1.5px solid var(--ink);background:var(--paper-card);color:var(--ink);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex:0 0 auto;}
+.topbar .tb-title{font-size:14px;color:var(--ink-soft);font-weight:500;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.hero{padding:14px 20px 10px;}
+.hero .eyebrow{display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:var(--teal);padding:4px 10px;border-radius:3px;letter-spacing:.06em;}
+.hero h1{font-size:28px;font-weight:800;margin-top:10px;color:var(--ink);}
+.hero p.lead{font-size:13.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55;}
+.progress-pill{margin-top:14px;display:flex;align-items:center;gap:10px;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;}
+.progress-pill .num{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:20px;color:var(--teal-deep);}
+.progress-bar-bg{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;}
+.progress-bar-fg{height:100%;background:var(--teal);border-radius:4px;transition:width .4s;}
+
+.group{padding:6px 18px 4px;}
+.group-head{display:flex;align-items:baseline;gap:8px;margin:22px 0 10px;padding:0 2px;}
+.group-head .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+.group-head h2{font-size:17px;font-weight:700;color:var(--ink);}
+.group-head .range{font-size:11.5px;color:var(--ink-soft);font-weight:500;margin-left:auto;}
+
+.cardlist{display:flex;flex-direction:column;gap:10px;}
+.tcard{position:relative;display:flex;align-items:center;gap:12px;background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;text-align:left;width:100%;transition:transform .12s;overflow:hidden;}
+.tcard:active{transform:scale(.985);}
+.tcard .num{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:22px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 auto;}
+.tcard .tx{flex:1;min-width:0;}
+.tcard .tx .ttl{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.35;}
+.tcard .tx .sub{font-size:11.5px;color:var(--ink-soft);margin-top:3px;}
+.tcard .chev{color:var(--ink-soft);font-size:16px;flex:0 0 auto;}
+.stamp-mini{position:absolute;right:10px;top:8px;border:2px solid var(--vermilion);color:var(--vermilion);border-radius:6px;font-size:9.5px;font-weight:800;padding:2px 5px;transform:rotate(-9deg);letter-spacing:.05em;opacity:.92;background:rgba(184,68,44,.06);}
+
+.topic-head{padding:6px 20px 4px;}
+.topic-head .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ink-soft);}
+.topic-head .badge b{color:#fff;background:var(--ink);border-radius:5px;padding:2px 7px;font-family:'Nanum Myeongjo',serif;}
+.topic-head h1{font-size:22px;font-weight:800;margin-top:8px;}
+.topic-head .period{font-size:12px;color:var(--ink-soft);margin-top:5px;}
+
+.summary{padding:6px 20px 110px;}
+.summary h4{font-size:14.5px;font-weight:700;color:var(--teal-deep);margin:22px 0 8px;display:flex;align-items:center;gap:8px;}
+.summary h4::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);}
+.summary p{font-size:14px;line-height:1.85;color:var(--ink);margin:0 0 10px;}
+mark{background:var(--ochre-soft);color:var(--ink);padding:.05em .2em;border-radius:3px;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.summary .note{margin-top:14px;border-left:3px solid var(--vermilion);background:rgba(184,68,44,.06);padding:10px 12px;font-size:12.8px;color:var(--ink);border-radius:0 8px 8px 0;}
+
+.fab-wrap{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:560px;padding:14px 20px 22px;background:linear-gradient(180deg, rgba(238,241,230,0), var(--paper) 35%);display:flex;justify-content:center;z-index:25;}
+.fab{width:100%;background:var(--teal);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(18,63,58,.28);display:flex;align-items:center;justify-content:center;gap:8px;}
+.fab:active{transform:scale(.98);}
+
+.quiz-progress{padding:8px 20px 2px;}
+.qp-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
+.qp-row .lbl{font-size:12.5px;color:var(--ink-soft);font-weight:600;}
+.qp-row .lbl b{color:var(--teal-deep);font-size:14px;}
+.qp-bar-bg{height:6px;border-radius:4px;background:var(--line);overflow:hidden;}
+.qp-bar-fg{height:100%;background:var(--vermilion);border-radius:4px;transition:width .35s;}
+
+.qcard{margin:16px 18px 0;background:var(--paper-card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 20px;}
+.qtype{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;color:#fff;border-radius:5px;padding:3px 8px;margin-bottom:10px;}
+.qtype.mc{background:var(--teal);}
+.qtype.short{background:var(--vermilion);}
+.qtext{font-size:16px;font-weight:700;line-height:1.55;color:var(--ink);margin-bottom:14px;}
+
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:13px 14px;margin-bottom:9px;font-size:14px;color:var(--ink);cursor:pointer;line-height:1.5;transition:border-color .15s, background .15s;}
+.opt:active{transform:scale(.99);}
+.opt.correct{border-color:var(--good);background:rgba(47,122,79,.1);font-weight:700;}
+.opt.wrong{border-color:var(--bad);background:rgba(184,68,44,.1);}
+.opt[disabled]{cursor:default;}
+
+textarea.shortbox{width:100%;min-height:88px;border:1.5px solid var(--line);border-radius:11px;padding:12px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff;resize:vertical;}
+.kwbox{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px;}
+.kwbox .modelans{font-size:13.5px;line-height:1.7;color:var(--ink);background:rgba(29,107,99,.07);border-radius:9px;padding:10px 12px;margin-bottom:10px;}
+.kwchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.kwchip{font-size:11.5px;font-weight:700;color:var(--teal-deep);background:var(--ochre-soft);border-radius:20px;padding:4px 10px;}
+.selfcheck{display:flex;gap:8px;}
+.scbtn{flex:1;border-radius:10px;padding:11px;font-size:13.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;cursor:pointer;}
+.scbtn.yes{border-color:var(--good);color:var(--good);}
+.scbtn.no{border-color:var(--bad);color:var(--bad);}
+
+.explain{margin-top:12px;font-size:13px;line-height:1.65;color:var(--ink-soft);background:rgba(32,36,31,.045);border-radius:9px;padding:10px 12px;}
+.nextbar{padding:16px 18px 8px;}
+.nextbtn{width:100%;background:var(--ink);color:#fff;border:none;border-radius:13px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;}
+.nextbtn[disabled]{background:#c9cdc2;cursor:default;}
+
+.result{padding:40px 24px 30px;text-align:center;}
+.seal{width:128px;height:128px;margin:0 auto 18px;border:5px solid var(--vermilion);border-radius:20px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg);color:var(--vermilion);}
+.seal span{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:21px;letter-spacing:.08em;}
+.result .score{font-family:'Nanum Myeongjo',serif;font-size:42px;font-weight:800;color:var(--teal-deep);margin:6px 0 2px;}
+.result .scorelbl{font-size:13px;color:var(--ink-soft);margin-bottom:18px;}
+.breakdown{display:flex;justify-content:center;gap:18px;margin-bottom:26px;}
+.bd-item{font-size:12.5px;color:var(--ink-soft);}
+.bd-item b{display:block;font-size:18px;color:var(--ink);font-family:'Nanum Myeongjo',serif;}
+.resbtns{display:flex;flex-direction:column;gap:10px;}
+.resbtn{border-radius:13px;padding:14px;font-size:14.5px;font-weight:700;cursor:pointer;border:none;}
+.resbtn.primary{background:var(--teal);color:#fff;}
+.resbtn.ghost{background:var(--paper-card);border:1.5px solid var(--line);color:var(--ink);}
+.footer-note{padding:30px 22px 10px;font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.6;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===================== 데이터 (이후 채워짐) ===================== */
+const TOPICS = [
+{
+  id:'t01', num:'01', group:'A', period:'구석기 ~ 철기 시대', range:'p.8~11',
+  title:'선사 문화가 발달하고 국가가 출현하다',
+  summary:`
+  <h4>구석기 시대</h4>
+  <p>한반도와 주변 지역의 구석기 시대는 <mark>수십만 년 전</mark>에 시작되었다. 구석기인은 빙하기와 간빙기가 반복되는 환경에 적응하며 <mark>주먹도끼·찍개·긁개 등의 뗀석기</mark>를 만들어 사냥과 채집을 하였고, 무리를 지어 <mark>이동 생활</mark>을 하며 동굴이나 막집에서 거주하였다. 빙하기가 끝날 즈음 큰 동물이 사라지고 작고 빠른 동물이 늘자, 이를 사냥하기 위해 <mark>슴베찌르개 같은 이음 도구</mark>나 활을 만들어 사용하였다.</p>
+  <h4>신석기 시대</h4>
+  <p>약 <mark>1만 년 전</mark> 자연환경이 오늘날과 비슷해지면서 신석기 시대가 시작되었다. 여전히 사냥과 채집을 하였지만 점차 <mark>농사를 짓고 동물을 길들이기</mark> 시작하였다. 돌보습·돌낫·갈돌과 갈판 등의 <mark>간석기</mark>를 만들고, <mark>빗살무늬 토기</mark>로 곡물을 저장·조리하였으며, 가락바퀴와 뼈바늘로 옷을 지었다. 농경과 목축이 본격화되면서 강가나 바닷가에 <mark>움집</mark>을 짓고 정착 생활을 하는 <mark>부족 사회</mark>가 등장하였고, 공동으로 생산·소비하는 평등한 사회였다.</p>
+  <h4>계급이 분화하고 국가가 출현하다 (청동기 시대)</h4>
+  <p>기원전 1500년 무렵 시작된 청동기 시대에는 농경이 발달하면서 <mark>잉여 생산물</mark>이 발생하였고, 이를 사유화하는 사람이 나타나면서 <mark>계급이 분화</mark>되어 권력을 가진 <mark>군장</mark>이 등장하였다. 청동기(비파형 동검, 청동 거울)는 원료가 귀해 주로 지배층이 의례용으로 사용했고, 농기구는 여전히 돌·나무(반달 돌칼)였다. 군장이 죽으면 그의 권력을 상징하는 거대한 <mark>고인돌</mark>을 만들었으며, 세력이 강한 부족이 주변을 통합하며 <mark>국가가 출현</mark>하였다. <mark>고조선</mark>은 이 시기 등장한 우리 역사상 최초의 국가이다.</p>
+  <h4>철기 시대</h4>
+  <p>기원전 5세기경 철기 시대가 되자 철광석으로 만든 <mark>철제 농기구</mark>가 보급되어 농업 생산력이 증가하였고, <mark>철제 무기</mark>의 사용으로 정복 전쟁이 활발해지면서 <mark>부여, 고구려, 삼한</mark> 등 여러 나라가 성장하였다.</p>
+  <div class="note">특집: <b>반구대 암각화(울산)</b> — 신석기~청동기 시대에 걸쳐 새겨졌으며, 초기에는 사슴, 이후 고래·거북, 나중에는 호랑이·표범 등이 새겨졌다. 고기잡이와 사냥의 성공을 기원한 것으로 보이며, 300여 점 중 58점이 고래 그림이다.</div>
+  `,
+  quiz:[
+    {type:'mc', q:'구석기 시대 사람들의 생활 모습으로 옳지 않은 것은?', choices:['뗀석기를 만들어 사용하였다','무리를 지어 이동 생활을 하였다','동굴이나 막집에서 거주하였다','농사를 짓고 가축을 기르기 시작하였다'], answer:3, explain:'농경과 목축의 시작은 신석기 시대의 특징이다. 구석기인은 뗀석기로 사냥·채집을 하며 이동 생활을 하였다.'},
+    {type:'mc', q:'다음 유물이 처음 사용된 시대는? — "아랫부분이 뾰족하고 빗살무늬가 새겨진 토기"', choices:['구석기 시대','신석기 시대','청동기 시대','철기 시대'], answer:1, explain:'빗살무늬 토기는 신석기 시대에 곡물을 저장·조리하기 위해 만들어졌다.'},
+    {type:'mc', q:'신석기 시대의 사회 모습으로 옳은 것은?', choices:['강가나 바닷가에 움집을 짓고 정착 생활을 하였다','권력을 가진 군장이 등장하였다','철제 무기로 정복 전쟁이 활발해졌다','반달 돌칼 대신 청동 농기구를 사용하였다'], answer:0, explain:'신석기인은 농경·목축이 본격화되면서 움집을 짓고 정착 생활을 하는 부족 사회를 이루었다.'},
+    {type:'mc', q:'청동기 시대에 계급이 분화된 직접적 배경으로 가장 적절한 것은?', choices:['농경 발달로 발생한 잉여 생산물의 사유화','뗀석기 사용의 확산','한 군현의 설치','신석기인의 평등한 분배 전통 강화'], answer:0, explain:'농경 발달 → 잉여 생산물 발생 → 사유화 → 계급 분화 → 군장 등장의 과정으로 국가가 출현하였다.'},
+    {type:'mc', q:'고인돌에 대한 설명으로 옳은 것은?', choices:['신석기 시대 평등 사회의 산물이다','청동기 시대 지배층(군장)의 권력을 상징하는 무덤이다','한 군현 설치 이후 유행한 무덤이다','삼한의 소도에서만 발견된다'], answer:1, explain:'고인돌은 청동기 시대 군장의 권력을 보여 주는 무덤으로, 비파형 동검과 함께 고조선의 문화 범위를 추정하는 자료가 된다.'},
+    {type:'mc', q:'철기 시대에 새롭게 성장한 나라로 옳지 않은 것은?', choices:['부여','고구려','삼한','발해'], answer:3, explain:'부여, 고구려, 삼한 등은 철기 시대(기원전 5세기경 이후)에 성장하였다. 발해는 이보다 훨씬 뒤인 698년에 건국되었다.'},
+    {type:'mc', q:'반구대 암각화에 대한 설명으로 옳은 것은?', choices:['고려 시대에 처음 새겨졌다','고래·사슴 등을 새겨 고기잡이와 사냥의 성공을 기원하였다','오직 호랑이만 새겨져 있다','청동기 시대에만 새겨졌다'], answer:1, explain:'반구대 암각화는 신석기~청동기 시대에 걸쳐 새겨졌으며 사슴, 고래, 호랑이 등이 표현되어 있다.'},
+    {type:'short', q:'청동기 시대에 계급이 분화되고 국가가 출현하게 된 과정을 서술하시오.', keywords:['잉여 생산물','사유화','계급 분화','군장'], model:'농경이 발달하면서 잉여 생산물이 발생하자 이를 사유화하는 사람들이 나타났다. 그 결과 계급이 분화되었고, 권력을 가진 군장이 등장하여 주변 부족을 통합하면서 국가가 출현하였다.'},
+    {type:'short', q:'신석기 시대 사람들의 생활 모습을 농경과 주거 형태를 중심으로 서술하시오.', keywords:['농경과 목축','정착 생활','움집'], model:'신석기 시대 사람들은 농경과 목축을 시작하면서 강가나 바닷가에 움집을 짓고 정착 생활을 하였으며, 부족 사회를 이루어 평등하게 생산과 소비를 함께 하였다.'},
+    {type:'short', q:'한반도에 등장한 우리 역사상 최초의 국가의 이름을 쓰시오.', keywords:['고조선'], model:'고조선'},
+  ]
+},
+{
+  id:'t02', num:'02', group:'A', period:'고조선 ~ 여러 나라의 성장', range:'p.12~13',
+  title:'고조선이 등장하고 여러 나라가 성장하다',
+  summary:`
+  <h4>고조선이 등장하다</h4>
+  <p>청동기 시대 정복 전쟁이 빈번해지며 권력을 가진 군장이 주변 부족을 통합해 나가는 과정에서 우리 역사상 최초의 국가인 <mark>고조선</mark>이 성립하였다. 고조선은 랴오닝 지방과 한반도 서북부 일대에서 발전하였고, 중국의 연과 맞설 정도로 성장하였으나 기원전 3세기 초 연의 공격으로 영토를 빼앗기기도 하였다. 왕 아래 상·대부·장군 등의 관직을 두었고, <mark>8조법</mark>을 만들어 사회 질서를 유지하였다.</p>
+  <p>중국의 진·한 교체기에 <mark>위만</mark>을 비롯한 유민이 고조선으로 건너왔고, 위만은 고조선의 왕을 몰아내고 왕위를 차지하였다(기원전 194). 이후 고조선은 철기 문화를 받아들이고, 한과 주변국 사이에서 <mark>중계 무역</mark>으로 이익을 얻었다. 고조선이 흉노와 가까워지려 하자 한이 침략하였고, 고조선은 1년여 항쟁 후 내분으로 멸망하였다(기원전 108). 한은 옛 고조선 지역에 <mark>낙랑군 등 4개의 군현</mark>을 두어 통치하였다.</p>
+  <h4>여러 나라가 성장하다</h4>
+  <p>한 군현에 저항하며 만주와 한반도에는 부여, 고구려, 옥저, 동예, 삼한 등이 성장하였다. 부여와 고구려는 여러 소국이 연맹을 이루고 대표로 왕을 선출하는 <mark>연맹체 국가</mark>였다. 부여는 제가들이 <mark>사출도</mark>라는 독자적 영역을 다스렸고 흉년이 들면 왕을 교체하기도 하였다. 고구려는 5부의 가들이 <mark>제가 회의</mark>를 통해 국가 중대사를 결정하였다.</p>
+  <p>옥저와 동예는 왕이 없이 읍군·삼로 등의 군장이 다스렸으며, 한 군현과 고구려의 압력으로 크게 성장하지 못하였다. 한반도 중남부에서는 고조선 유민과 토착 세력이 결합하여 마한·진한·변한의 <mark>삼한</mark>이 형성되었다. 마한의 목지국이 가장 강력하여 삼한을 대표하였다. 각 소국은 신지·읍차 등의 군장이 통치하고, <mark>천군</mark>이 제사를 주관하며 <mark>소도</mark>라는 신성 지역이 존재하여 삼한이 <mark>제정 분리 사회</mark>였음을 보여 준다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'고조선의 8조법을 통해 알 수 있는 사회 모습으로 가장 적절한 것은?', choices:['남녀가 완전히 평등하였다','사람의 생명과 사유 재산을 중시하였다','노비 제도가 존재하지 않았다','왕이 존재하지 않았다'], answer:1, explain:'"사람을 죽인 자는 즉시 죽이고, 남의 물건을 훔친 자는 노비로 삼는다"는 조항을 통해 생명 존중과 사유 재산 보호를 중시했음을 알 수 있다.'},
+    {type:'mc', q:'위만에 대한 설명으로 옳은 것은?', choices:['중국 진·한 교체기에 유민을 이끌고 고조선으로 와 왕위를 차지하였다','8조법을 처음 만들었다','한 군현을 몰아내고 고조선을 부흥시켰다','삼한을 통합하여 마한을 세웠다'], answer:0, explain:'위만은 진·한 교체기에 고조선으로 건너와 기원전 194년 고조선의 왕을 몰아내고 왕위를 차지하였다.'},
+    {type:'mc', q:'고조선이 멸망한 후 한이 그 지역에 설치한 것은?', choices:['9서당','낙랑군 등 4개의 군현','동북 9성','정동행성'], answer:1, explain:'고조선 멸망(기원전 108) 후 한은 옛 고조선과 주변 지역에 낙랑군 등 4개의 군현을 두고 통치하였다.'},
+    {type:'mc', q:'부여와 고구려의 공통적인 특징으로 옳은 것은?', choices:['왕이 존재하지 않았다','여러 소국이 연맹을 이루고 대표로 왕을 선출하는 연맹체 국가였다','제정 분리 사회였다','한 군현의 지배를 받았다'], answer:1, explain:'부여와 고구려는 여러 소국의 연맹체로, 그 대표가 왕으로 선출되는 연맹체 국가였다.'},
+    {type:'mc', q:'옥저와 동예에 대한 설명으로 옳지 않은 것은?', choices:['왕이 없고 읍군·삼로 등이 다스렸다','한 군현과 고구려의 압력을 받았다','함경도와 강원도 동해안에 위치하였다','왕을 중심으로 강력한 중앙 집권 체제를 갖추었다'], answer:3, explain:'옥저와 동예는 왕이 없이 읍군·삼로가 다스렸으며, 한 군현과 고구려의 압력으로 크게 성장하지 못하였다.'},
+    {type:'mc', q:'삼한에서 제사를 주관한 사람을 가리키는 명칭은?', choices:['군장','천군','상','대부'], answer:1, explain:'삼한에서는 신지·읍차 등의 군장이 정치를 담당하고, 천군이 소도에서 제사를 주관하는 제정 분리 사회였다.'},
+    {type:'mc', q:'삼한 중 가장 강력하여 삼한을 대표하였던 소국은?', choices:['금관가야','목지국(마한)','사로국(진한)','구야국(변한)'], answer:1, explain:'마한의 목지국이 삼한 중 가장 강력하여 삼한을 대표하였다.'},
+    {type:'short', q:'고조선이 한의 침략을 받게 된 배경을 서술하시오.', keywords:['흉노','중계 무역'], model:'고조선이 흉노와 긴밀한 관계를 맺으려는 움직임을 보이고, 주변국이 한과 직접 교역하는 것을 막으며 중계 무역으로 이익을 얻자 한이 이를 견제하기 위해 침략하였다.'},
+    {type:'short', q:'삼한이 제정 분리 사회였음을 보여 주는 근거를 서술하시오.', keywords:['천군','소도'], model:'삼한에서는 신지·읍차 등의 군장이 정치를 맡았지만, 천군이라는 제사장이 따로 소도라는 신성 지역에서 제사를 주관하였다. 이를 통해 정치와 제사가 분리된 사회였음을 알 수 있다.'},
+    {type:'short', q:'부여, 고구려처럼 여러 소국이 연합하여 대표로 왕을 선출한 국가 형태를 무엇이라 하는가?', keywords:['연맹체 국가'], model:'연맹체 국가'},
+  ]
+},
+{
+  id:'t05', num:'05', group:'B', period:'후삼국 ~ 고려 초기', range:'p.22~25',
+  title:'고려, 새 나라의 기틀을 마련하다',
+  summary:`
+  <h4>신라 말 호족이 성장하다</h4>
+  <p>8세기 후반 진골 귀족의 왕위 쟁탈전으로 왕권이 약화되고 귀족의 수탈이 심해지자 농민 봉기가 일어났다(<mark>원종과 애노의 난</mark>, 889). 지방에서는 새로운 세력인 <mark>호족</mark>이 성장하여 6두품 세력과 연대하거나 선종·풍수지리설을 후원하며 세력을 넓혔다. <mark>견훤</mark>은 완산주(전주)에서 후백제를(900), <mark>궁예</mark>는 송악(개성)에서 후고구려를 건국(901)하며 후삼국 시대가 시작되었다.</p>
+  <h4>왕건, 고려를 건국하다</h4>
+  <p>송악 호족 출신 왕건은 궁예를 몰아낸 호족들의 추대로 왕이 되어 <mark>고려를 건국</mark>하였다(918). 신라가 고려에 항복하고, 고려가 후백제를 멸망시켜 <mark>후삼국을 통일</mark>하였다(936). 태조는 혼인 정책으로 호족을 포섭하고 조세를 경감하며, 중앙 관리를 출신지의 <mark>사심관</mark>으로 임명하고 호족 자제를 개경에 머물게 하는 <mark>기인 제도</mark>로 지방 세력을 통제하였다. 대외적으로는 거란과 대립하며 <mark>북진 정책</mark>을 추진하였다.</p>
+  <h4>광종, 왕권을 강화하다</h4>
+  <p>광종은 <mark>노비안검법</mark>을 실시하여 호족이 불법으로 차지한 노비를 양인으로 해방해 호족의 힘을 약화시켰고, <mark>과거제</mark>를 실시하여 유교적 소양을 갖춘 신진 세력을 양성하였다. 스스로 황제라 칭하고 독자적 연호(광덕·준풍)를 사용하며 자신에 반대하는 공신과 호족을 제거하였다.</p>
+  <h4>성종, 통치 체제를 정비하다</h4>
+  <p>성종은 <mark>최승로의 시무 28조</mark>를 받아들여 유교 이념을 바탕으로 통치 체제를 정비하였다. 중앙은 2성 6부 체제를 갖추고 회의 기구인 도병마사·식목도감을 두었으며, 어사대와 중서문하성 낭사로 구성된 <mark>대간</mark>이 간쟁·봉박·서경의 권한을 가졌다. 지방에는 처음으로 <mark>12목</mark>을 설치해 지방관을 파견하였고, 현종 때 전국을 경기와 5도 양계로 나누었다. 지방관이 파견된 <mark>주현</mark>이 파견되지 않은 <mark>속현</mark>을 관할하였고, 향·부곡·소는 차별받는 특수 행정 구역이었다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'신라 말 호족이 성장하게 된 배경으로 옳은 것은?', choices:['진골 귀족 간 왕위 쟁탈전과 농민 봉기','과거제의 시행','노비안검법의 실시','거란의 침략 격퇴'], answer:0, explain:'진골 귀족의 왕위 쟁탈전으로 왕권이 약화되고 농민 봉기가 잇따르는 가운데 지방에서 호족이 성장하였다.'},
+    {type:'mc', q:'견훤과 궁예에 대한 설명으로 옳은 것은?', choices:['견훤은 송악에서 후고구려를, 궁예는 완산주에서 후백제를 세웠다','견훤은 완산주에서 후백제를, 궁예는 송악에서 후고구려를 세웠다','두 사람 모두 신라 왕족 출신이다','두 사람은 함께 고려를 건국하였다'], answer:1, explain:'견훤은 완산주(전주)에 도읍하여 후백제를, 궁예는 송악(개성)에 도읍하여 후고구려를 건국하였다.'},
+    {type:'mc', q:'태조 왕건이 호족 세력을 통제하기 위해 실시한 제도로 옳은 것은?', choices:['사심관 제도와 기인 제도','노비안검법과 과거제','12목 설치','대간 제도'], answer:0, explain:'태조는 중앙 관리를 출신지의 사심관으로 삼고, 호족 자제를 개경에 머물게 하는 기인 제도로 지방 세력을 통제하였다.'},
+    {type:'mc', q:'광종이 실시한 정책으로 옳은 것은?', choices:['시무 28조 수용','노비안검법, 과거제 실시','5도 양계 설치','홍범 14조 반포'], answer:1, explain:'광종은 노비안검법과 과거제를 실시하여 호족 세력을 약화하고 왕권을 강화하였다.'},
+    {type:'mc', q:'광종이 노비안검법을 실시한 목적으로 가장 적절한 것은?', choices:['농민의 조세 부담을 줄이기 위해','호족이 불법으로 차지한 노비를 해방하여 호족의 세력을 약화하기 위해','거란을 견제하기 위해','과거제를 폐지하기 위해'], answer:1, explain:'노비안검법은 호족이 불법으로 차지한 노비를 양인으로 해방시켜 호족의 경제적·군사적 기반을 약화시키려는 목적이었다.'},
+    {type:'mc', q:'성종이 최승로의 시무 28조를 받아들여 실시한 정책으로 옳은 것은?', choices:['지방관 파견 시작, 국자감 설치','노비안검법 실시','위화도 회군','동북 9성 설치'], answer:0, explain:'성종은 시무 28조를 수용하여 지방에 관리(12목)를 파견하고 국자감을 설치하는 등 유교적 통치 체제를 정비하였다.'},
+    {type:'mc', q:'고려의 대간이 가진 권한으로 옳지 않은 것은?', choices:['간쟁(왕의 잘못을 논함)','봉박(잘못된 왕명을 돌려보냄)','서경(관리 임명 시 동의 여부 서명)','관리를 직접 임명할 수 있는 권한'], answer:3, explain:'대간은 간쟁·봉박·서경의 권한으로 왕권을 견제하였을 뿐, 관리를 직접 임명하는 권한은 없었다.'},
+    {type:'short', q:'태조 왕건이 후삼국 통일 전후 호족 세력을 포섭하기 위해 실시한 정책을 두 가지 서술하시오.', keywords:['혼인 정책','사심관'], model:'태조는 호족과 혼인 관계를 맺어 그들을 포섭하였고, 중앙 관리를 출신 지역의 사심관으로 임명하여 지방을 통제하면서도 호족의 지방 지배력을 인정해 주었다.'},
+    {type:'short', q:'광종이 노비안검법과 과거제를 실시한 목적을 서술하시오.', keywords:['왕권 강화','호족 세력 약화'], model:'광종은 호족이 불법으로 소유한 노비를 해방시켜 호족의 경제적·군사적 기반을 약화시키고, 과거제로 유교적 소양을 갖춘 신진 세력을 양성하여 왕권을 강화하고자 하였다.'},
+    {type:'short', q:'고려 시대 지방관이 파견된 군현을 무엇이라 하는가?', keywords:['주현'], model:'주현'},
+  ]
+},
+{
+  id:'t06', num:'06', group:'B', period:'고려 문벌기 ~ 무신 집권기', range:'p.26~29',
+  title:'문벌 독점 체제가 흔들리다',
+  summary:`
+  <h4>문벌, 권력을 독점하다</h4>
+  <p>거란과의 전쟁(서희, 강감찬) 이후 평화가 안정되며 여러 대에 걸쳐 고위 관료를 배출한 <mark>문벌</mark>이 성장하였다. 이들은 왕실·문벌과 혼인하고 과거와 음서로 요직을 독점하였다(대표적으로 경원 이씨). 문벌의 권력 독점으로 신진 세력의 정치 참여가 줄고 불법적 토지 탈취 등 문제가 발생하자 숙종은 신진 세력을 등용해 견제하였다.</p>
+  <h4>여진을 정벌하고 동북 9성을 설치하다</h4>
+  <p>여진이 성장하여 고려를 위협하자 숙종은 윤관의 건의로 <mark>별무반</mark>을 조직하였다. 예종 때 윤관이 별무반으로 여진을 정벌하고 <mark>동북 9성</mark>을 설치했으나(1107), 방어가 어려워 여진의 요청으로 다시 돌려주었다(1109).</p>
+  <h4>이자겸의 난과 금에 대한 사대</h4>
+  <p>여진이 <mark>금</mark>을 건국(1115)하고 거란을 멸망시킨 후 고려에 사대를 요구하였다. 당시 막강한 권력을 가졌던 <mark>이자겸</mark>이 자신을 제거하려는 인종에 반발해 난을 일으켰고(1126), 이후 전쟁을 피하고 권력을 유지하려 금의 사대 요구를 수용하였다. 이는 고려 왕의 위상을 약화시켰다.</p>
+  <h4>묘청, 서경 천도 운동을 추진하다</h4>
+  <p>인종은 왕권 회복을 위해 묘청 등 서경 세력을 등용해 칭제건원·금 정벌·<mark>서경 천도</mark>를 추진하였으나 김부식 등 개경 세력의 반대로 좌절되자 묘청이 반란을 일으켰다(<mark>서경 천도 운동</mark>, 1135). 김부식이 이끄는 관군에 의해 1년 만에 진압되었다.</p>
+  <h4>무신들이 권력을 장악하다</h4>
+  <p>문신 중심 체제 속 무신에 대한 차별이 심해지자 정중부, 이의방 등이 <mark>무신 정변</mark>을 일으켰다(1170). 무신들의 회의 기구인 <mark>중방</mark>을 중심으로 정치가 운영되었으나 권력 다툼으로 혼란하였다. <mark>최충헌</mark>이 집권하면서 안정되었는데, 그는 <mark>교정도감</mark>을 설치해 권력을 행사하였고 아들 최우는 <mark>정방</mark>으로 인사권을 장악하였다. 무신 정권기 권력자들의 대농장 확대로 국가 재정이 악화되고 신분 질서가 흔들리며 망이·망소이의 난(1176), 김사미·효심의 난(1193), <mark>만적의 난</mark>(1198) 등 농민·천민 봉기가 잇따랐다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'고려 문벌이 권력을 독점할 수 있었던 방법으로 옳은 것은?', choices:['왕실·문벌 간 혼인, 과거와 음서를 통한 관직 독점','노비안검법 실시','무신 정변 주도','삼별초 결성'], answer:0, explain:'문벌은 왕실이나 다른 문벌과 혼인 관계를 맺고 과거와 음서를 통해 요직을 독점하며 세력을 키웠다.'},
+    {type:'mc', q:'윤관이 별무반을 이끌고 여진을 정벌한 후 설치한 것은?', choices:['9서당','동북 9성','진관 체제','교정도감'], answer:1, explain:'예종 때 윤관이 별무반으로 여진을 정벌하고 동북 9성을 설치하였다(1107).'},
+    {type:'mc', q:'이자겸이 금의 사대 요구를 수용한 이유로 가장 적절한 것은?', choices:['금과의 전쟁을 피하고 자신의 권력을 유지하기 위해','왕권을 강화하기 위해','서경 천도를 실현하기 위해','신진 사대부의 요구를 따르기 위해'], answer:0, explain:'이자겸은 강성해진 금과의 전쟁을 피하고 자신의 권력을 안정적으로 유지하기 위해 금의 사대 요구를 수용하였다.'},
+    {type:'mc', q:'서경 천도 운동을 주도한 인물과 그 결과로 옳은 것은?', choices:['묘청 — 김부식에게 1년 만에 진압됨','이자겸 — 인종에게 진압됨','정중부 — 최충헌에게 진압됨','김윤후 — 몽골군에게 패배함'], answer:0, explain:'묘청이 서경 천도가 좌절되자 반란을 일으켰으나(1135) 김부식이 이끄는 관군에 의해 1년 만에 진압되었다.'},
+    {type:'mc', q:'무신 정변(1170) 이후 무신들의 회의 기구는?', choices:['도병마사','중방','교정도감','도평의사사'], answer:1, explain:'무신 정변 직후에는 무신들의 회의 기구인 중방을 중심으로 정치가 운영되었다.'},
+    {type:'mc', q:'최충헌이 설치한 국정 총괄 최고 권력 기구는?', choices:['교정도감','정방','중방','도병마사'], answer:0, explain:'최충헌은 교정도감을 설치하여 국정을 총괄하는 막강한 권력을 행사하였다.'},
+    {type:'mc', q:'무신 정권기에 일어난 봉기로 옳은 것은?', choices:['망이·망소이의 난, 만적의 난','이자겸의 난','서경 천도 운동','임오군란'], answer:0, explain:'무신 정권기에는 특수 행정 구역민의 망이·망소이의 난, 신분 해방을 도모한 만적의 난 등이 일어났다.'},
+    {type:'short', q:'이자겸이 금의 사대 요구를 수용한 배경과 그 결과를 서술하시오.', keywords:['금의 성장','왕권 약화'], model:'거란을 멸망시키고 송을 압박할 만큼 성장한 금이 사대를 요구하자, 이자겸은 전쟁을 피하고 자신의 권력을 유지하기 위해 사대를 결정하였다. 그 결과 고려는 평화를 유지했지만 고려 왕의 국내외 위상은 약화되었다.'},
+    {type:'short', q:'무신 정권기에 농민과 천민의 봉기가 잇따라 일어난 이유를 서술하시오.', keywords:['대농장','수탈'], model:'무신들이 불법적으로 토지를 늘려 대농장을 소유하면서 국가 재정이 악화되고 백성에 대한 수탈이 심해졌으며, 천민이 최고 권력자가 되는 등 신분 질서가 흔들리면서 농민과 천민의 봉기가 잇따랐다.'},
+    {type:'short', q:'최충헌이 집권한 이후 설치한, 국정을 총괄한 최고 권력 기구의 이름을 쓰시오.', keywords:['교정도감'], model:'교정도감'},
+  ]
+},
+{
+  id:'t07', num:'07', group:'B', period:'몽골 침입 ~ 고려 멸망', range:'p.30~33',
+  title:'원의 간섭 속에서 개혁을 시도하다',
+  summary:`
+  <h4>몽골의 침략에 맞서다</h4>
+  <p>몽골 사신 피살을 구실로 몽골이 고려를 침략하자(1231) 최우는 <mark>강화도</mark>로 천도하여 장기 항전을 준비하였다. 처인성에서는 김윤후가 몽골 장수 살리타를 사살하는 등 약 30년간 항쟁하였으나, 결국 몽골과 강화하였다(1259). 고려 왕실은 원 황실과 혼인하여 <mark>부마국</mark>이 되었고, 개경으로 환도하자(1270) 무신 정권의 군사 기반이었던 <mark>삼별초</mark>가 이에 반대하여 항쟁하다 진압되었다.</p>
+  <h4>원의 간섭으로 통치 체제가 바뀌다</h4>
+  <p>원은 고려의 왕실 용어와 관제를 격하시켰다(조·종→충0왕, 6부→4사 등). 국정은 <mark>도평의사사</mark>에서 논의하였고, 일본 침략을 위해 설치된 <mark>정동행성</mark>은 이후에도 존속하며 고려 왕이 그 승상을 겸하는 이중적 지위를 가졌다.</p>
+  <h4>원 간섭기, 고려 사회가 변화하다</h4>
+  <p>고려는 원의 일본 침략에 동원되었고, 공녀와 환관이 끌려갔으며 응방이 설치되었다. 몽골풍과 고려양이 유행하였다. 친원적 성향의 <mark>권문세족</mark>이 지배층이 되어 도평의사사와 정방을 장악하고 불법적으로 토지와 노비를 늘려 농장을 확대하였고, 이는 농민의 몰락과 국가 재정 위기로 이어졌다.</p>
+  <h4>공민왕이 개혁을 추진하다</h4>
+  <p>원이 쇠퇴하자 <mark>공민왕</mark>은 친원 세력을 숙청하고 정동행성 이문소를 폐지하며 <mark>쌍성총관부</mark>를 공격해 옛 영토를 되찾았다. 신돈을 책임자로 한 <mark>전민변정도감</mark>을 설치하여 권문세족이 빼앗은 토지를 돌려주고 노비를 해방하였으며 정방을 폐지하였다. 그러나 홍건적·왜구의 침략과 권문세족의 반발 속에 신돈이 제거되고 공민왕이 시해되면서 개혁이 중단되었다.</p>
+  <h4>신진 사대부의 성장과 조선 건국</h4>
+  <p>성리학을 수용한 <mark>신진 사대부</mark>가 성균관을 중심으로 성장하여 친명 배원을 주장하고 권문세족을 비판하였다. 홍건적과 왜구를 격퇴하며 성장한 이성계 등 신흥 무인 세력과 결합하여 <mark>위화도 회군</mark>(1388)으로 실권을 잡고 <mark>과전법</mark>을 시행하였다. 이후 고려 왕조 유지를 주장한 온건파(이색, 정몽주)와 새 왕조 건국을 주장한 급진파(정도전, 조준)로 분열하였고, 급진파가 이성계를 왕으로 추대하여 <mark>조선을 건국</mark>하였다(1392).</p>
+  `,
+  quiz:[
+    {type:'mc', q:'몽골의 침략에 맞선 고려의 항쟁으로 옳은 것은?', choices:['김윤후가 처인성에서 살리타를 사살하였다','윤관이 동북 9성을 설치하였다','서희가 외교 담판으로 영토를 확보하였다','이성계가 위화도에서 회군하였다'], answer:0, explain:'처인성에서 김윤후가 부곡민을 이끌고 몽골 장수 살리타를 사살하였다.'},
+    {type:'mc', q:'고려가 개경으로 환도(1270)한 것에 반발하여 항쟁한 군사 조직은?', choices:['별무반','삼별초','9서당','별기군'], answer:1, explain:'무신 정권의 군사적 기반이었던 삼별초는 개경 환도에 반발하여 진도, 제주 등에서 항쟁하였다.'},
+    {type:'mc', q:'원 간섭기 일본 침략을 위해 설치되었다가 이후에도 존속하며 고려의 내정을 간섭한 기구는?', choices:['통리기무아문','정동행성','교정도감','도평의사사'], answer:1, explain:'정동행성은 일본 침략을 위해 설치되었으나 전쟁 이후에도 존속하였고, 고려 왕이 그 책임자인 승상을 겸하였다.'},
+    {type:'mc', q:'원 간섭기 지배층으로 성장하여 불법적으로 농장을 확대한 세력은?', choices:['권문세족','신진 사대부','문벌','삼별초'], answer:0, explain:'친원적 성향의 권문세족은 도평의사사와 정방을 장악하고 불법으로 토지와 노비를 늘려 농장을 확대하였다.'},
+    {type:'mc', q:'공민왕이 추진한 반원 개혁 정책으로 옳은 것은?', choices:['쌍성총관부 공격, 전민변정도감 설치','노비안검법 실시','위화도 회군','과전법 시행'], answer:0, explain:'공민왕은 쌍성총관부를 공격해 영토를 회복하고, 전민변정도감을 설치해 권문세족이 빼앗은 토지·노비를 되돌렸다.'},
+    {type:'mc', q:'위화도 회군을 계기로 실권을 잡은 인물은?', choices:['정몽주','이성계','정도전','최영'], answer:1, explain:'요동 정벌에 반대한 이성계는 위화도에서 군대를 돌려 우왕과 최영을 몰아내고 국정을 장악하였다(1388).'},
+    {type:'mc', q:'신진 사대부 중 새 왕조 건국을 주장한 급진파에 해당하는 인물은?', choices:['이색','정몽주','정도전','이제현'], answer:2, explain:'정도전, 조준 등 급진파는 새 왕조 건국을 주장하였고, 이색·정몽주 등 온건파는 고려 왕조 유지를 주장하였다.'},
+    {type:'short', q:'공민왕이 전민변정도감을 설치한 목적을 서술하시오.', keywords:['권문세족','토지','노비'], model:'권문세족이 불법으로 빼앗은 토지를 원래 주인에게 돌려주고, 억울하게 노비가 된 사람들을 양인으로 해방하기 위해 전민변정도감을 설치하였다.'},
+    {type:'short', q:'신진 사대부가 권문세족과 대외 관계에서 보인 입장의 차이를 서술하시오.', keywords:['친명 배원'], model:'신진 사대부는 원이 쇠퇴하고 명이 성장하자 명과 교류하고 원과 관계를 끊어야 한다는 친명 배원을 주장한 반면, 권문세족은 원과의 관계를 통해 성장하여 원과의 관계를 이어 가려 하였다.'},
+    {type:'short', q:'신진 사대부와 신흥 무인 세력이 함께 시행하여 토지 제도를 개혁한 법의 이름을 쓰시오.', keywords:['과전법'], model:'과전법'},
+  ]
+},
+{
+  id:'t22', num:'22', group:'C', period:'1840~1876', range:'p.108~111',
+  title:'국제 질서의 변화 속에 조선이 개항하다',
+  summary:`
+  <h4>청과 일본이 개항하다</h4>
+  <p>영국은 청과의 무역 적자를 해소하려 아편을 밀수출하다 청이 이를 금지하자 <mark>아편 전쟁</mark>을 일으켰고, 청은 패배하여 <mark>난징 조약</mark>을 맺고 개항하였다. 미국은 무력시위로 일본을 압박해 <mark>미일 화친 조약, 미일 수호 통상 조약</mark>을 맺게 하였다. 이 조약들은 거류지 설치, 최혜국 대우, 영사 재판권, 협정 관세를 포함한 <mark>불평등 조약</mark>이었다.</p>
+  <h4>조선, 서양의 통상 요구를 거부하다</h4>
+  <p>프랑스는 병인박해를 구실로 강화도를 침략했으나(<mark>병인양요</mark>, 1866) 한성근·양헌수의 활약으로 물리쳤다. 1868년 오페르트 도굴 사건으로 반감이 커졌고, 1871년 미국이 침략하자(<mark>신미양요</mark>) 어재연이 광성보에서 항전하였다. 이후 조선 정부는 전국에 <mark>척화비</mark>를 세워 통상 거부 의지를 밝혔으나, 오경석·박규수 등은 문호 개방을 주장하였다.</p>
+  <h4>강화도 조약이 체결되다</h4>
+  <p>일본 군함 운요호가 강화도·영종도를 불법 침입한 <mark>운요호 사건</mark>(1875)을 계기로 일본이 개항을 요구하였고, 조선은 1876년 일본과 <mark>강화도 조약(조일 수호 조규)</mark>을 체결하였다. 이는 조선이 외국과 맺은 최초의 근대적 조약으로 조선이 자주국임을 명시하였으나, 부산·원산·인천 개항과 함께 일본의 <mark>영사 재판권과 해안 측량권</mark>을 인정한 불평등 조약이었다. 후속 조약에서는 일본 화폐 유통을 허용하고 관세 규정 없이 양곡 수출을 제한하지 않아 <mark>무관세 무역과 쌀의 무제한 유출</mark> 문제가 발생하였다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'제1차 아편 전쟁의 결과로 청이 영국과 체결한 조약은?', choices:['난징 조약','강화도 조약','톈진 조약','시모노세키 조약'], answer:0, explain:'청은 제1차 아편 전쟁에서 패배하여 영국과 난징 조약을 맺고 5개 항구를 개항하였다.'},
+    {type:'mc', q:'병인양요와 신미양요에 대한 설명으로 옳은 것은?', choices:['병인양요는 미국, 신미양요는 프랑스가 일으켰다','병인양요는 프랑스, 신미양요는 미국이 일으켰다','두 사건 모두 일본이 일으켰다','두 사건 모두 조선이 승리해 통상 조약을 체결하였다'], answer:1, explain:'1866년 프랑스가 병인박해를 구실로 침략한 것이 병인양요, 1871년 미국이 제너럴 셔먼호 사건을 구실로 침략한 것이 신미양요이다.'},
+    {type:'mc', q:'신미양요 당시 강화도 광성보에서 항전한 인물은?', choices:['양헌수','한성근','어재연','신헌'], answer:2, explain:'미군이 강화도에 상륙하자 어재연이 이끄는 조선군이 광성보에서 격렬히 항전하였다.'},
+    {type:'mc', q:'운요호 사건의 결과로 체결된 조약은?', choices:['강화도 조약','조미 수호 통상 조약','제물포 조약','한성 조약'], answer:0, explain:'1875년 운요호 사건을 계기로 일본이 개항을 요구하여 1876년 강화도 조약이 체결되었다.'},
+    {type:'mc', q:'강화도 조약(조일 수호 조규)의 내용으로 옳은 것은?', choices:['조선이 청의 속국임을 명시하였다','조선이 자주국으로서 일본과 평등한 권리를 가짐을 명시하였다','일본인의 내륙 진출을 전면 금지하였다','조선에 관세 자주권을 완전히 보장하였다'], answer:1, explain:'강화도 조약 제1관에는 조선이 자주국으로서 일본국과 평등한 권리를 가진다고 명시되었다.'},
+    {type:'mc', q:'강화도 조약이 불평등 조약으로 평가받는 이유로 옳은 것은?', choices:['일본의 영사 재판권과 해안 측량권을 인정하였기 때문','조선의 관세 자주권을 완전히 보장하였기 때문','일본에 거중 조정을 요구하였기 때문','조선이 자주국임을 명시하지 않았기 때문'], answer:0, explain:'강화도 조약은 부산·원산·인천 개항과 함께 일본의 영사 재판권과 해안 측량권을 인정하여 불평등 조약의 출발이 되었다.'},
+    {type:'mc', q:'강화도 조약 체결에 영향을 준 국내 인물로, 통상 개화에 우호적이었던 인물은?', choices:['이항로','박규수','이만손','최익현'], answer:1, explain:'박규수는 정부 내에서 통상 개화에 우호적인 입장을 보여 조선이 일본과의 대화를 선택하는 데 영향을 주었다.'},
+    {type:'short', q:'강화도 조약이 조선에 불리한 불평등 조약이었던 까닭을 서술하시오.', keywords:['영사 재판권','해안 측량권'], model:'강화도 조약으로 조선은 부산, 원산, 인천을 개항하면서 일본의 영사 재판권과 해안 측량권을 인정하였고, 후속 조약에서는 무관세 무역과 쌀의 무제한 유출까지 허용하여 불평등 조약의 성격을 띠었다.'},
+    {type:'short', q:'병인양요와 신미양요 이후 조선 정부가 보인 대응을 서술하시오.', keywords:['척화비'], model:'조선 정부는 전국에 척화비를 세워 서양 열강과 통상 수교를 하지 않겠다는 의지를 강하게 밝혔다.'},
+    {type:'short', q:'1876년 조선이 일본과 맺은, 조선이 외국과 체결한 최초의 근대적 조약의 이름을 쓰시오.', keywords:['강화도 조약'], model:'강화도 조약(조일 수호 조규)'},
+  ]
+},
+{
+  id:'t23', num:'23', group:'C', period:'1876~1883', range:'p.112~117',
+  title:'개화를 둘러싼 갈등이 일어나다',
+  summary:`
+  <h4>개화 정책의 추진</h4>
+  <p>오경석, 박규수 등이 형성한 <mark>개화파</mark>는 개항 이후 정부의 개화 정책에 주도적으로 참여하였다. 정부는 개화 정책을 총괄하는 <mark>통리기무아문</mark>을 설치하고, 신식 군대 <mark>별기군</mark>을 창설하였으며, <mark>조사 시찰단</mark>(일본), <mark>영선사</mark> 김윤식(청, 기기창 설립에 기여)을 파견하였다.</p>
+  <h4>미국과의 수교와 보빙 사절단</h4>
+  <p>『조선책략』의 영향으로 조선은 서구 열강 중 처음으로 미국과 <mark>조미 수호 통상 조약</mark>(1882)을 맺었다. 강화도 조약에 없던 관세 부과, 양곡 수출 금지, <mark>거중 조정</mark> 조항이 담겼지만 영사 재판권과 최혜국 대우를 인정한 불평등 조약이었다. 이후 조선은 <mark>보빙 사절단</mark>을 미국에 파견하였다.</p>
+  <h4>위정척사 운동과 임오군란</h4>
+  <p>보수 유생들은 서양을 오랑캐로 인식하며 <mark>위정척사 운동</mark>을 전개하였고, 『조선책략』 유포에 반발해 이만손 등이 <mark>영남 만인소</mark>를 올렸다. 한편 구식 군인들은 별기군에 비해 차별받고 급료가 체불되자 분노하여 <mark>임오군란</mark>(1882)을 일으켰다. 흥선 대원군이 사태를 수습하려 개화 정책을 백지화했으나, 민씨 일파의 요청으로 <mark>청군이 개입</mark>하여 진압하고 흥선 대원군을 납치하였다.</p>
+  <h4>개항 이후의 무역 변화</h4>
+  <p>강화도 조약 후속 조약으로 일본 상인의 활동 범위가 개항장 10리에서 50리, 100리로 확대되며 <mark>거류지 무역</mark>이 자리 잡았다. 임오군란 후 체결된 <mark>조청 상민 수륙 무역 장정</mark>으로 청 상인이 내륙까지 진출할 수 있게 되어 거류지 무역은 쇠퇴하였다. 또한 일본과는 <mark>조일 통상 장정</mark>(1883)을 맺어 방곡령 규정과 협정 관세를 담았지만 최혜국 대우가 포함되어 여전히 불평등하였다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'정부가 개화 정책을 총괄하기 위해 설치한 기구는?', choices:['통리기무아문','군국기무처','교정청','정동행성'], answer:0, explain:'정부는 청의 총리아문을 본떠 통리기무아문을 설치하여 개화 정책을 총괄하게 하였다.'},
+    {type:'mc', q:'조미 수호 통상 조약에 대한 설명으로 옳은 것은?', choices:['『조선책략』의 영향으로 체결되었고 거중 조정 조항이 포함되었다','조선이 서구 열강 중 가장 마지막으로 수교한 나라이다','조선에 완전한 관세 자주권을 보장하였다','영사 재판권을 인정하지 않은 평등 조약이었다'], answer:0, explain:'『조선책략』을 읽은 고종과 정부는 미국과의 수교를 긍정적으로 인식하였고, 거중 조정과 관세 부과 조항이 새로 담겼다.'},
+    {type:'mc', q:'위정척사 운동을 대표하는 1880년대의 사건은?', choices:['영남 만인소','임오군란','갑신정변','강화도 조약 체결'], answer:0, explain:'1880년대 『조선책략』 유포에 반발하여 이만손을 중심으로 영남 유생들이 만인소를 올렸다.'},
+    {type:'mc', q:'임오군란이 발생한 직접적 원인은?', choices:['구식 군인에 대한 차별과 급료 체불','강화도 조약 체결','갑신정변 발생','동학 농민군의 봉기'], answer:0, explain:'급료를 제대로 받지 못하고 별기군에 비해 차별 대우를 받던 구식 군인들이 분노하여 임오군란을 일으켰다.'},
+    {type:'mc', q:'임오군란의 결과로 옳은 것은?', choices:['청군이 개입하여 진압하고 흥선 대원군을 납치하였다','조선이 일본의 식민지가 되었다','갑신정변이 성공하였다','조선이 청과의 사대 관계를 완전히 끊었다'], answer:0, explain:'민씨 일파의 요청으로 청이 군대를 보내 봉기를 진압하고 흥선 대원군을 청으로 납치하였다.'},
+    {type:'mc', q:'조청 상민 수륙 무역 장정의 내용으로 옳은 것은?', choices:['청 상인의 내륙 진출을 허용하였다','일본 상인의 활동을 전면 금지하였다','조선이 자주국임을 명시하였다','조선에 관세 자주권을 보장하였다'], answer:0, explain:'조청 상민 수륙 무역 장정으로 청 상인이 한성·양화진을 비롯해 허가를 받으면 내륙까지 활동할 수 있게 되었다.'},
+    {type:'mc', q:'조일 통상 장정(1883)에 새롭게 포함된 규정으로 옳은 것은?', choices:['방곡령 규정','관세 자주권의 완전한 회복','최혜국 대우 폐지','거류지 무역 폐지'], answer:0, explain:'조일 통상 장정은 방곡령 규정을 새로 넣었지만 관세 자주권은 회복하지 못하고 최혜국 대우도 담겨 여전히 불평등하였다.'},
+    {type:'short', q:'임오군란이 일어난 배경을 서술하시오.', keywords:['구식 군인','차별'], model:'구식 군인들은 1년 넘게 급료를 받지 못하고 별기군에 비해 차별 대우를 받는 등 불만이 쌓여 있었는데, 급료로 받은 쌀에 모래와 겨가 섞여 있자 분노가 폭발하여 봉기하였다.'},
+    {type:'short', q:'조미 수호 통상 조약이 강화도 조약과 비교해 새롭게 담은 내용을 서술하시오.', keywords:['거중 조정','관세'], model:'조미 수호 통상 조약에는 강화도 조약에 없던 관세 부과, 양곡 수출 금지 조항이 담겼고, 다른 나라와 분쟁이 발생할 때 미국의 지원을 기대할 수 있는 거중 조정 조항도 포함되었다.'},
+    {type:'short', q:'정부의 개화 정책을 총괄하기 위해 설치된 기구의 이름을 쓰시오.', keywords:['통리기무아문'], model:'통리기무아문'},
+  ]
+},
+{
+  id:'t24', num:'24', group:'C', period:'1882~1885', range:'p.118~121',
+  title:'급진 개화파, 근대 국가 수립을 꿈꾸다',
+  summary:`
+  <h4>임오군란 후 청의 간섭과 개화파의 분화</h4>
+  <p>임오군란 진압 후 청은 군대를 주둔시키며 내정에 간섭하였고, 일본은 <mark>제물포 조약</mark>으로 배상금과 공사관 주둔을 얻어냈다. 개화 세력은 청에 대한 태도를 두고 <mark>온건 개화파</mark>(김홍집, 김윤식 — 동도서기론, 점진적 개화)와 <mark>급진 개화파</mark>(김옥균, 박영효 — 문명개화론, 급진적 개화)로 나뉘었다.</p>
+  <h4>갑신정변</h4>
+  <p>차관 도입 실패로 궁지에 몰린 급진 개화파는 청군이 베트남 문제로 병력을 이동시킨 것을 기회로 삼아, 일본의 지원을 약속받고 우정총국 개국 축하 연회를 이용해 <mark>갑신정변</mark>을 일으켰다(1884). 개화당 정부는 청에 대한 사대 관계 폐지, 문벌 폐지, 내각제 수립 등의 <mark>개혁 정강</mark>을 발표했으나, 청군의 개입으로 <mark>3일천하</mark>로 끝났다.</p>
+  <h4>갑신정변의 영향</h4>
+  <p>갑신정변은 소수 개화파 중심으로 진행되어 <mark>민중의 지지를 얻지 못하였고</mark>, 조선은 개화의 동력을 잃고 청에 더 예속되었다. 일본은 조선과 <mark>한성 조약</mark>(배상금, 공사관 신축비)을, 청과는 <mark>톈진 조약</mark>(양국 군대 철수, 파병 시 사전 통보)을 맺었다.</p>
+  <h4>거문도 사건</h4>
+  <p>갑신정변 이후 고종이 러시아를 끌어들이자 영국이 러시아의 남하를 견제한다는 구실로 <mark>거문도</mark>를 불법 점령하였다(1885). 이는 조선이 열강의 각축장이 될 수 있음을 보여 준 사건이었다. 유길준은 <mark>중립화론</mark>을 제시했으나 수용되지 못하였다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'온건 개화파와 급진 개화파의 입장을 옳게 짝지은 것은?', choices:['온건 개화파-동도서기론 / 급진 개화파-문명개화론','온건 개화파-문명개화론 / 급진 개화파-동도서기론','두 세력 모두 위정척사를 주장하였다','두 세력 모두 갑신정변을 함께 주도하였다'], answer:0, explain:'김홍집·김윤식 등 온건 개화파는 동도서기론에 따른 점진적 개화를, 김옥균·박영효 등 급진 개화파는 문명개화론에 따른 급진적 개화를 주장하였다.'},
+    {type:'mc', q:'급진 개화파가 갑신정변을 일으킬 수 있었던 계기로 옳은 것은?', choices:['청군이 베트남 문제로 한성 주둔 병력을 이동시킨 것','조미 수호 통상 조약 체결','임오군란의 성공','갑오개혁의 실시'], answer:0, explain:'베트남 문제로 청이 한성 주둔 병력의 절반을 이동시킨 것을 기회로 여기고, 일본의 지원을 약속받아 정변을 일으켰다.'},
+    {type:'mc', q:'갑신정변 당시 개화당 정부가 발표한 개혁 정강의 내용으로 옳은 것은?', choices:['청에 대한 사대 관계 폐지, 문벌 폐지','청과의 사대 관계 강화','신분제 강화','일본에 영토 할양'], answer:0, explain:'개화당 정부는 청에 대한 사대 관계를 폐지해 자주독립을 선포하고, 문벌을 폐지해 인민 평등권을 보장하고자 하였다.'},
+    {type:'mc', q:'갑신정변이 "3일천하"로 끝난 가장 직접적인 이유는?', choices:['청군의 신속한 개입','미국의 무력 개입','조선 정부의 자진 해산','동학 농민군의 반대'], answer:0, explain:'민씨 세력의 반격과 청군의 신속한 개입으로 갑신정변은 3일 만에 실패로 끝났다.'},
+    {type:'mc', q:'갑신정변 이후 일본이 조선과 체결한 조약은?', choices:['한성 조약','제물포 조약','강화도 조약','조미 수호 통상 조약'], answer:0, explain:'일본은 정변에 깊이 개입하고도 오히려 조선과 한성 조약을 맺어 공사관 신축비와 배상금을 요구하였다.'},
+    {type:'mc', q:'톈진 조약(1885)의 내용으로 옳은 것은?', choices:['청과 일본이 조선에서 군대를 철수하고 파병 시 사전에 통보한다','조선이 일본에 거문도를 할양한다','조선이 러시아와 군사 동맹을 맺는다','조선이 자주국임을 처음으로 명시한다'], answer:0, explain:'톈진 조약에서 청과 일본은 조선에서 군대를 철수하고, 장래 파병할 때는 사전에 문서로 알리기로 약속하였다.'},
+    {type:'mc', q:'거문도 사건에 대한 설명으로 옳은 것은?', choices:['영국이 러시아의 남하를 견제한다는 구실로 거문도를 불법 점령하였다','일본이 거문도에 영사관을 설치하였다','조선이 자발적으로 영국에 거문도를 빌려주었다','거문도 사건으로 조선과 영국이 정식 수교하였다'], answer:0, explain:'고종이 러시아를 끌어들이자 영국이 러시아의 남하를 견제한다는 구실로 거문도를 불법 점령하였다(1885).'},
+    {type:'short', q:'갑신정변이 "3일천하"로 끝난 이유를 서술하시오.', keywords:['청군 개입','민중의 지지'], model:'민씨 세력의 반격과 청군의 신속한 개입으로 정변이 실패하였고, 일본의 지원을 받은 소수 개화파 중심의 위로부터의 개혁이어서 민중의 지지를 얻지 못한 채 끝났다.'},
+    {type:'short', q:'거문도 사건이 가지는 역사적 의미를 서술하시오.', keywords:['열강의 각축장'], model:'거문도 사건은 영국이 철수했음에도 조선이 언제든지 주변 열강의 각축장이 될 수 있음을 보여 준 사건이었다.'},
+    {type:'short', q:'1884년 급진 개화파가 일으킨 정변의 이름을 쓰시오.', keywords:['갑신정변'], model:'갑신정변'},
+  ]
+},
+{
+  id:'t25', num:'25', group:'C', period:'1894 (1차~2차 봉기)', range:'p.122~127',
+  title:'동학 농민군, "보국안민"의 깃발을 들다',
+  summary:`
+  <h4>고부 농민 봉기와 1차 봉기</h4>
+  <p>군수 조병갑의 수탈에 맞서 전봉준이 사발통문을 돌려 <mark>고부 농민 봉기</mark>(1894.1)를 일으켰다. 안핵사 이용태의 가혹한 탄압에 전봉준이 손화중과 함께 무장에서 <mark>1차 봉기</mark>(1894.3)를 일으켰고, 백산에서 "<mark>보국안민</mark>"의 깃발을 내걸며 4대 행동 강령을 발표하였다. 황토현·황룡촌 전투에서 승리하고 전주성을 점령하였다.</p>
+  <h4>전주 화약과 집강소</h4>
+  <p>정부가 청에 원병을 요청하자 톈진 조약에 따라 일본군도 상륙하였다. 상황이 급박해지자 농민군은 폐정 개혁과 신변 보장을 조건으로 정부와 <mark>전주 화약</mark>을 맺고 해산하였다(1894.5). 이후 농민군은 전라도 각지에 <mark>집강소</mark>를 설치해 치안을 유지하며 폐정 개혁을 자주적으로 실천하였다.</p>
+  <h4>2차 봉기</h4>
+  <p>일본이 경복궁을 침범하고 <mark>청일 전쟁</mark>을 일으켜 내정 간섭을 본격화하자 농민군은 일본군을 몰아내기 위해 다시 봉기하였다(<mark>2차 봉기</mark>, 1894.9). 전봉준의 남접군과 손병희의 북접군이 논산에 집결해 한성으로 진격했으나 <mark>우금치 전투</mark>(1894.11)에서 일본군·관군 연합 부대에 패배하였고, 전봉준 등 지도자들이 체포되며 막을 내렸다.</p>
+  <h4>역사적 의의</h4>
+  <p>동학 농민 운동은 민중이 동학 조직과 결합하여 아래에서부터 사회를 개혁하고 외세에 맞서 싸운 운동이었다. 농민군의 <mark>폐정 개혁 요구는 갑오개혁에 반영</mark>되었고, 일부는 항일 의병에 가담하였다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'고부 농민 봉기의 직접적 원인은?', choices:['군수 조병갑의 수탈과 만석보 문제','일본의 경복궁 침범','청일 전쟁 발발','갑신정변의 실패'], answer:0, explain:'전라도 고부 군수 조병갑이 만석보 아래 새 보를 쌓게 하고 물세를 거두는 등 수탈을 일삼아 고부 농민 봉기가 일어났다.'},
+    {type:'mc', q:'동학 농민군이 백산에서 내건 행동 원칙으로 옳은 것은?', choices:['보국안민의 깃발과 4대 행동 강령','홍범 14조','헌의 6조','대한국 국제'], answer:0, explain:'백산에 집결한 농민군은 "나라를 돕고 민중을 편안하게 하자"는 보국안민의 깃발을 내걸고 4대 행동 강령을 발표하였다.'},
+    {type:'mc', q:'전주 화약 체결의 결과로 옳은 것은?', choices:['집강소가 설치되어 폐정 개혁이 추진되었다','동학 농민군이 완전히 해체되었다','일본군이 즉시 조선에서 철수하였다','청이 조선의 보호국이 되었다'], answer:0, explain:'전주 화약 이후 농민군은 전라도 여러 지역에 집강소를 설치하여 치안을 유지하며 폐정 개혁을 자주적으로 추진하였다.'},
+    {type:'mc', q:'동학 농민군이 2차로 봉기한 주된 목적은?', choices:['일본군을 몰아내기 위해','조병갑을 처벌하기 위해','전주성을 점령하기 위해','집강소를 설치하기 위해'], answer:0, explain:'일본이 경복궁을 침범하고 청일 전쟁을 일으켜 내정에 깊이 간섭하자, 농민군은 일본군을 몰아내기 위해 2차로 봉기하였다.'},
+    {type:'mc', q:'우금치 전투에 대한 설명으로 옳은 것은?', choices:['전봉준의 남접군과 손병희의 북접군이 일본군·관군 연합 부대에 패배하였다','농민군이 승리하여 한성을 점령하였다','청군과 동학 농민군이 연합하여 일본군을 물리쳤다','집강소가 설치된 직후 일어난 전투이다'], answer:0, explain:'논산에 집결한 남접군과 북접군이 한성으로 진격하던 중 공주 우금치에서 일본군·관군 연합 부대에 패배하였다.'},
+    {type:'mc', q:'동학 농민 운동의 역사적 의의로 가장 적절한 것은?', choices:['폐정 개혁 요구가 갑오개혁에 반영되었다','조선이 자주독립국이 되는 데 직접 기여하였다','조선의 신분제가 동학 농민 운동으로 완전히 폐지되었다','일본의 조선 침략을 완전히 막아냈다'], answer:0, explain:'동학 농민군의 폐정 개혁 요구는 갑오개혁에 반영되어 평등한 사회로 나아가는 데 역할을 하였다.'},
+    {type:'mc', q:'동학 농민군의 1차 봉기 과정에서 일어난 사건이 아닌 것은?', choices:['황토현 전투','전주성 점령','우금치 전투','전주 화약'], answer:2, explain:'우금치 전투는 1894년 11월, 2차 봉기 때 일어난 전투이다. 황토현 전투, 전주성 점령, 전주 화약은 모두 1차 봉기 과정의 사건이다.'},
+    {type:'short', q:'전주 화약이 체결된 배경과 그 이후 농민군의 활동을 서술하시오.', keywords:['집강소','폐정 개혁'], model:'청일 양군이 조선에 들어와 상황이 급박해지자 농민군은 폐정 개혁과 신변 보장을 조건으로 정부와 전주 화약을 맺고 해산하였다. 이후 농민군은 전라도 각지에 집강소를 설치하여 치안을 유지하며 폐정 개혁을 자주적으로 실천해 나갔다.'},
+    {type:'short', q:'동학 농민군이 1차 봉기와 달리 2차 봉기를 일으킨 이유를 서술하시오.', keywords:['일본군','경복궁'], model:'일본이 경복궁을 침범하고 청일 전쟁을 일으켜 조선의 내정에 깊이 간섭하자, 농민군은 일본군을 몰아내기 위해 2차로 봉기하였다.'},
+    {type:'short', q:'동학 농민군이 백산에서 내건 깃발의 구호를 쓰시오.', keywords:['보국안민'], model:'보국안민'},
+  ]
+},
+{
+  id:'t26', num:'26', group:'C', period:'1894~1896', range:'p.128~131',
+  title:'갑오개혁, 근대 국가의 발판을 마련하다',
+  summary:`
+  <h4>군국기무처와 갑오개혁(1차)</h4>
+  <p>일본이 경복궁을 무력 침범하고 <mark>청일 전쟁</mark>을 일으키자 김홍집 내각이 수립되고 <mark>군국기무처</mark>가 설치되어 독자적인 개혁을 추진하였다(<mark>갑오개혁</mark>, 1894). 신분 차별과 <mark>노비제를 폐지</mark>해 평등 사회로 나아가는 발판을 마련하였고, 중국 연호 사용을 폐지하였으며 왕실과 국가의 사무를 구분하였다.</p>
+  <h4>2차 개혁과 홍범 14조</h4>
+  <p>일본의 간섭이 심화되며 김홍집·박영효 연립 내각이 사법·지방 행정 제도를 개편하였다. 고종은 자주독립을 선포하고 개혁의 방향을 밝힌 <mark>홍범 14조</mark>를 반포했으며, 근대 교육 제도 도입을 위한 <mark>교육입국 조서</mark>를 발표하였다. 정치적으로는 의정부 폐지·내각제 시행, 과거제 폐지, 23부 개편이, 사회적으로는 과부의 재가 허용·조혼 금지·고문과 연좌제 폐지가, 경제적으로는 탁지아문 재정 일원화와 조세 금납화가 이루어졌다.</p>
+  <h4>삼국 간섭과 을미사변</h4>
+  <p>청일 전쟁에서 승리한 일본이 <mark>시모노세키 조약</mark>으로 랴오둥반도를 얻었으나 러시아·프랑스·독일의 <mark>삼국 간섭</mark>으로 청에 반환하였다. 고종과 왕비가 러시아에 접근하자 일본은 군인과 낭인을 동원해 명성 황후를 살해하였다(<mark>을미사변</mark>, 1895).</p>
+  <h4>을미개혁과 아관 파천</h4>
+  <p>이후 김홍집 내각이 <mark>단발령</mark>, 태양력 사용 등 <mark>을미개혁</mark>을 추진하였다. 을미사변에 분노한 유생과 민중이 단발령에 반발해 의병을 일으켰고, 신변에 불안을 느낀 고종은 러시아 공사관으로 피신하였다(<mark>아관 파천</mark>, 1896). 이로써 김홍집 내각이 붕괴되고 개혁은 중단되었다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'군국기무처가 설치된 배경으로 옳은 것은?', choices:['일본이 경복궁을 침범하고 청일 전쟁을 일으킨 것','갑신정변의 실패','을사늑약의 체결','아관 파천'], answer:0, explain:'일본이 경복궁을 무력 침범하고 청일 전쟁을 일으킨 가운데 김홍집 내각이 군국기무처를 설치하고 독자적인 개혁(갑오개혁)을 시작하였다.'},
+    {type:'mc', q:'갑오개혁(1차)에서 추진된 사회적 변화로 옳은 것은?', choices:['공사 노비 제도 폐지','단발령 실시','태양력 사용','아관 파천'], answer:0, explain:'갑오개혁(군국기무처)에서는 신분 차별을 없애고 노비제를 폐지하여 평등 사회로 나아가는 발판을 마련하였다.'},
+    {type:'mc', q:'홍범 14조에 대한 설명으로 옳은 것은?', choices:['청에 의존하는 생각을 끊고 자주독립의 기초를 세운다는 내용을 담았다','조선이 일본의 보호국임을 선언하였다','황제에게 모든 권한을 부여한 전제 군주제를 선포하였다','을사오적을 처벌할 것을 명시하였다'], answer:0, explain:'홍범 14조 1조는 "청에 의존하는 생각을 끊어 버리고 자주독립의 기초를 튼튼히 세운다"는 내용으로 자주독립을 천명하였다.'},
+    {type:'mc', q:'삼국 간섭에 대한 설명으로 옳은 것은?', choices:['러시아·프랑스·독일이 일본에 압력을 가해 랴오둥반도를 청에 반환하게 하였다','일본이 청·러시아·미국과 함께 조선을 분할 점령하였다','조선이 자주적으로 랴오둥반도를 차지하였다','삼국 간섭으로 시모노세키 조약이 무효화되었다'], answer:0, explain:'시모노세키 조약으로 랴오둥반도를 얻은 일본에 러시아·프랑스·독일이 압력을 가해 청에 반환하게 한 사건이 삼국 간섭이다.'},
+    {type:'mc', q:'을미사변에 대한 설명으로 옳은 것은?', choices:['일본이 군인과 낭인을 동원해 명성 황후를 살해한 사건이다','동학 농민군이 명성 황후를 시해한 사건이다','을미사변으로 단발령이 폐지되었다','을미사변 이후 갑오개혁이 처음 시작되었다'], answer:0, explain:'러시아에 접근하는 고종과 왕비를 견제하려 일본이 미우라 공사의 주도로 군인과 낭인을 보내 명성 황후를 살해하였다.'},
+    {type:'mc', q:'을미개혁의 내용으로 옳은 것은?', choices:['단발령 실시, 태양력 사용','노비제 폐지, 과거제 폐지','홍범 14조 반포','동학 농민군 폐정 개혁안 수용'], answer:0, explain:'을미개혁에서는 건양 연호와 태양력을 사용하고 단발령을 실시하였다.'},
+    {type:'mc', q:'아관 파천이 일어난 배경으로 옳은 것은?', choices:['을미사변으로 신변에 위협을 느낀 고종이 피신하였다','고종이 자발적으로 러시아와 동맹을 체결하기 위해 떠났다','임오군란으로 왕비가 피신하였다','갑신정변 직후 고종이 피신하였다'], answer:0, explain:'을미사변으로 신변에 불안을 느낀 고종이 1896년 경복궁에서 러시아 공사관으로 피신한 사건이 아관 파천이다.'},
+    {type:'short', q:'갑오개혁이 일본의 간섭 속에서도 추진되었지만 가진 한계를 서술하시오.', keywords:['청일 전쟁','일본인 고문관'], model:'갑오개혁은 청일 전쟁에서 승기를 잡은 일본이 적극 간섭하며 흥선 대원군을 물러나게 하고 다수의 일본인 고문관을 정부 요직에 배치하는 등 일본의 영향력 아래에서 추진된 한계를 가졌다.'},
+    {type:'short', q:'단발령이 의병 운동을 촉발한 이유를 서술하시오.', keywords:['을미사변','유생'], model:'을미사변으로 일본에 분노하고 있던 유생과 민중이 강제로 상투를 자르라는 단발령에 반발하여 전국에서 의병을 일으켰다.'},
+    {type:'short', q:'1896년 고종이 러시아 공사관으로 피신한 사건의 이름을 쓰시오.', keywords:['아관 파천'], model:'아관 파천'},
+  ]
+},
+{
+  id:'t27', num:'27', group:'C', period:'1896~1899', range:'p.132~135',
+  title:'독립 협회와 대한 제국, 서로 다른 근대 국가를 상상하다',
+  summary:`
+  <h4>독립 협회의 창립</h4>
+  <p>아관 파천 중 이권이 열강에 넘어가자 서재필이 <mark>독립신문</mark>을 창간하였다(1896). 곧이어 <mark>독립 협회</mark>가 창립되어 독립문을 세우고 정기적인 토론회를 열어 민권 의식과 독립 의식을 고취하였다.</p>
+  <h4>대한 제국의 수립</h4>
+  <p>고종은 환궁 후(1897) 연호를 "광무"로, 국호를 "<mark>대한 제국</mark>"으로 고치고 환구단에서 황제로 즉위하였다. 이후 청과도 한청 통상 조약을 맺어 동등한 주권국으로 인정받았다.</p>
+  <h4>만민 공동회와 헌의 6조</h4>
+  <p>독립 협회는 열강의 이권 침탈에 맞서 <mark>만민 공동회</mark>를 개최해 자유 민권 운동을 펼쳤고, 보수 내각을 퇴진시켜 박정양 개혁 내각을 이끌어 냈다. 정부 관료와 함께 연 <mark>관민 공동회</mark>에서는 <mark>헌의 6조</mark>가 결의되어 고종의 승인을 받았고, 의회 기능을 갖는 중추원 관제가 반포되었다.</p>
+  <h4>독립 협회의 해산과 대한국 국제</h4>
+  <p>보수 세력이 독립 협회가 공화정을 추진한다고 모함하자 고종은 독립 협회에 해산 명령을 내리고 황국 협회와 군대를 동원해 강제로 해산시켰다(1898.12). 이후 황제에게 입법·행정·사법·외교·군 통수권을 부여한 <mark>대한국 국제</mark>를 반포하여(1899) 전제 군주국임을 확고히 하였다.</p>
+  <h4>광무개혁</h4>
+  <p>대한 제국은 <mark>구본신참</mark>의 원칙 아래 무관 학교·원수부 설치, 식산흥업, 양전 사업과 <mark>지계 발급</mark> 등 광무개혁을 추진하였다. 그러나 황실의 이익을 강화하는 데 치우쳐 민권 보장에는 소홀하였고, 재정 부족과 부정부패로 어려움을 겪었다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'독립 협회가 창립된 목적으로 옳은 것은?', choices:['자주독립 상징물 조성, 민권 의식 고취','대한 제국의 황제권 강화','동학 농민군 지원','을사늑약 체결 지지'], answer:0, explain:'독립 협회는 독립문·독립공원 등 상징물을 조성하고 토론회를 통해 민권 의식과 독립 의식을 고취하였다.'},
+    {type:'mc', q:'대한 제국 수립과 관련된 사실로 옳은 것은?', choices:['고종이 환구단에서 황제 즉위식을 거행하고 연호를 광무로 하였다','순종이 환구단에서 즉위하였다','대한 제국은 청의 신하국으로 수립되었다','대한 제국 수립과 함께 동학 농민 운동이 시작되었다'], answer:0, explain:'고종은 환궁 후 연호를 광무로, 국호를 대한 제국으로 정하고 환구단에서 황제 즉위식을 거행하였다(1897).'},
+    {type:'mc', q:'헌의 6조의 내용으로 옳은 것은?', choices:['전국의 재정을 탁지부에서 모두 관리한다','황제의 권한을 모두 폐지한다','외국군의 주둔을 허용한다','노비제를 다시 시행한다'], answer:0, explain:'헌의 6조에는 전국 재정을 탁지부에서 관리하고 예산·결산을 인민에게 공포한다는 내용 등이 담겼다.'},
+    {type:'mc', q:'독립 협회가 해산된 직접적 계기로 옳은 것은?', choices:['보수 세력이 독립 협회가 공화정을 추진한다고 모함하였다','독립 협회가 자진 해산을 결정하였다','일본이 독립 협회를 강제 해산시켰다','만민 공동회가 성공적으로 의회를 설립하였다'], answer:0, explain:'보수 세력의 모함을 구실로 고종이 독립 협회에 해산 명령을 내리고 황국 협회와 군대를 동원해 강제 해산시켰다.'},
+    {type:'mc', q:'대한국 국제의 성격으로 옳은 것은?', choices:['황제에게 모든 권한을 부여한 전제 군주국을 천명하였다','입헌 군주제를 명시하였다','국민에게 참정권을 보장하였다','중추원을 의회로 명문화하였다'], answer:0, explain:'대한국 국제는 황제에게 입법권, 행정권, 사법권, 외교권, 군 통수권을 부여하여 전제 군주국임을 확고히 하였다.'},
+    {type:'mc', q:'광무개혁의 원칙으로 옳은 것은?', choices:['구본신참','동도서기','문명개화','위정척사'], answer:0, explain:'대한 제국은 "옛것을 근본으로 하고 새로운 것을 참고한다"는 구본신참의 원칙 아래 광무개혁을 추진하였다.'},
+    {type:'mc', q:'광무개혁 중 근대적 토지 소유권 확립을 위해 실시한 사업은?', choices:['양전 사업과 지계 발급','노비안검법','전민변정도감 설치','과전법 시행'], answer:0, explain:'대한 제국은 개혁 자금 마련을 위해 양전 사업을 실시하고, 근대적 토지 소유권 확립을 위해 지계를 발급하였다.'},
+    {type:'short', q:'독립 협회와 대한 제국 정부가 근대 국가를 바라보는 입장이 어떻게 달랐는지 서술하시오.', keywords:['민권','황제권'], model:'독립 협회는 민권 확대와 의회 설립을 통한 근대 국가를 추구한 반면, 대한 제국 정부는 황제권 강화를 통한 전제 군주국 건설을 추구하여 두 세력은 충돌하였다.'},
+    {type:'short', q:'광무개혁의 한계를 서술하시오.', keywords:['민권 보장','재정 부족'], model:'광무개혁은 외세의 간섭을 배제하고 자주적으로 추진되었지만 황실의 이익을 강화하는 방향으로 진행되어 민권 보장에는 소홀하였고, 재정 부족과 관료들의 부정부패로 어려움을 겪었다.'},
+    {type:'short', q:'1898년 독립 협회 주도로 열려 백정도 연설에 나서는 등 다양한 계층이 참여한 대중 집회의 이름을 쓰시오.', keywords:['만민 공동회'], model:'만민 공동회(관민 공동회)'},
+  ]
+},
+{
+  id:'t28', num:'28', group:'C', period:'1904~1910', range:'p.136~139',
+  title:'일본의 침략으로 국권을 빼앗기다',
+  summary:`
+  <h4>러일 전쟁과 국권 침탈의 시작</h4>
+  <p>영일 동맹을 맺은 일본은 <mark>러일 전쟁</mark>(1904)을 일으켰다. 고종의 중립 선언을 무시하고 <mark>한일 의정서</mark>를 강요해 전쟁 지역을 마음대로 사용했고, <mark>제1차 한일 협약</mark>으로 재정 고문(메가타)·외교 고문(스티븐스)을 파견하였다. 일본은 영국·미국에 이어 러시아로부터도(포츠머스 조약) 한국 지배를 인정받았다.</p>
+  <h4>을사늑약</h4>
+  <p>1905년 일본은 무력으로 <mark>을사늑약(제2차 한일 협약)</mark> 체결을 강요해 한국의 외교권을 빼앗고 한성에 <mark>통감</mark>을 설치하였다(초대 통감 이토 히로부미). 열강은 공사관을 철수시켰고, 한국은 독립국 지위를 상실하였다.</p>
+  <h4>국권 피탈 과정</h4>
+  <p>1907년 <mark>헤이그 특사</mark>(이상설, 이위종, 이준) 파견이 실패하자 일본은 이를 구실로 고종을 강제 퇴위시키고, <mark>한일 신협약(정미 7조약)</mark>으로 군대를 해산하였다. 이후 사법권·경찰권마저 빼앗겼고, 1910년 <mark>한국 병합 조약</mark>으로 국권을 완전히 빼앗겼다.</p>
+  <h4>독도와 간도</h4>
+  <p>대한 제국은 1900년 칙령 제41호로 독도(석도)를 울도군에 편입시켜 관할을 분명히 하였으나, 1905년 일본은 <mark>시마네현 고시</mark>로 독도를 불법 편입시켰다. 간도 문제는 대한 제국이 이범윤을 간도 관리사로 임명해 관할하려 했으나, 1909년 일본이 만주 철도·탄광 권리를 얻는 대가로 <mark>간도 협약</mark>을 맺어 간도를 청의 영토로 인정하였다. 을사늑약이 불법이었으므로 간도 협약 역시 국제법상 인정받을 수 없다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'러일 전쟁 발발 후 일본이 강요하여 한반도 전쟁 지역을 마음대로 사용하게 된 조약은?', choices:['한일 의정서','을사늑약','한일 신협약','한국 병합 조약'], answer:0, explain:'일본은 고종의 중립 선언을 무시하고 한일 의정서를 강요하여 전쟁에 필요한 지역을 마음대로 사용하였다.'},
+    {type:'mc', q:'을사늑약의 내용으로 옳은 것은?', choices:['한국의 외교권을 일본이 대신 행사하고 통감을 설치한다','한국의 군대를 해산한다','한국의 사법권을 박탈한다','한국을 일본에 완전히 병합한다'], answer:0, explain:'을사늑약(제2차 한일 협약)은 일본이 한국의 외교권을 대신 행사하고, 외교 사무를 위해 통감을 둔다는 내용이었다.'},
+    {type:'mc', q:'헤이그 특사 파견 이후 일어난 일로 옳은 것은?', choices:['고종이 강제로 퇴위되고 순종이 즉위하였다','조선이 자주독립국으로 인정받았다','을사늑약이 무효화되었다','일본군이 조선에서 철수하였다'], answer:0, explain:'일본은 헤이그 특사 파견을 구실로 고종을 강제 퇴위시키고 순종을 즉위시켰다.'},
+    {type:'mc', q:'한일 신협약(정미 7조약)의 결과로 옳은 것은?', choices:['대한 제국의 군대가 해산되었다','한국이 독립을 인정받았다','을사오적이 처벌되었다','대한 제국이 중립국이 되었다'], answer:0, explain:'한일 신협약으로 일본인이 각 부서의 차관으로 임명되었고, 이어 대한 제국의 군대가 해산되었다.'},
+    {type:'mc', q:'1905년 일본이 시마네현 고시를 통해 불법으로 편입시킨 우리 영토는?', choices:['독도','울릉도','거문도','간도'], answer:0, explain:'1905년 일본은 독도를 "다케시마"라 칭하며 시마네현 고시로 불법 편입시켰다.'},
+    {type:'mc', q:'간도 협약(1909)에 대한 설명으로 옳은 것은?', choices:['일본이 만주의 철도·탄광 채굴권을 얻는 대가로 간도를 청의 영토로 인정하였다','대한 제국이 간도를 자국 영토로 확정받았다','간도 협약으로 백두산정계비가 처음 세워졌다','간도 협약은 국제법상 유효한 조약으로 인정받는다'], answer:0, explain:'일본은 만주의 철도 부설권과 탄광 채굴권 등을 얻는 조건으로 간도를 청의 영토로 인정하는 간도 협약을 맺었으나, 을사늑약이 불법이었기에 이 역시 국제법상 인정받지 못한다.'},
+    {type:'mc', q:'한국 병합 조약이 체결되어 국권을 완전히 빼앗긴 해는?', choices:['1905년','1907년','1910년','1919년'], answer:2, explain:'1910년 한국 병합 조약이 강제로 체결되면서 대한 제국은 국권을 빼앗기고 일본의 식민지가 되었다.'},
+    {type:'short', q:'을사늑약 체결의 불법성을 서술하시오.', keywords:['황제의 서명','강요'], model:'을사늑약은 일본이 무력으로 고종과 대신들을 위협하여 일방적으로 체결을 선언한 것으로, 고종 황제의 서명과 도장이 없는 등 정식 절차를 거치지 않은 불법적인 조약이었다.'},
+    {type:'short', q:'간도 협약이 국제법상 인정받지 못하는 이유를 서술하시오.', keywords:['을사늑약','불법'], model:'간도 협약은 일본이 을사늑약으로 빼앗은 외교권을 근거로 대한 제국을 대신해 체결한 것인데, 을사늑약 자체가 불법이었기 때문에 간도 협약 또한 국제법상 인정받지 못한다.'},
+    {type:'short', q:'을사늑약으로 설치되어 한국의 내정과 외교를 사실상 장악한 일본 측 책임자의 직책명을 쓰시오.', keywords:['통감'], model:'통감'},
+  ]
+},
+{
+  id:'t29', num:'29', group:'C', period:'1895~1910', range:'p.140~143',
+  title:'국권을 수호하기 위해 항일 투쟁에 나서다',
+  summary:`
+  <h4>의병 운동이 일어나다</h4>
+  <p>을미사변과 단발령에 반발한 유생들이 <mark>을미의병</mark>을 일으켰으나(1895) 고종의 해산 권유로 대부분 해산하였다. 1905년 을사늑약 전후로 최익현, 평민 의병장 <mark>신돌석</mark> 등이 활약한 <mark>을사의병</mark>이 일어났다.</p>
+  <h4>의병 전쟁으로 발전하다</h4>
+  <p>고종의 강제 퇴위와 군대 해산으로 의병 운동이 거세져 해산 군인이 합류한 <mark>정미의병</mark>(1907)이 일어났다. 이인영을 총사령관으로 한 <mark>13도 창의군</mark>이 결성되어 <mark>서울 진공 작전</mark>(1908)을 전개했으나 일본군의 우세한 화력에 막혀 실패하였다.</p>
+  <h4>의병 운동의 지속과 탄압</h4>
+  <p>서울 진공 작전 실패 후에도 호남 지역에서 의병이 끝까지 항쟁하자 일제는 1909년 <mark>"남한 대토벌" 작전</mark>을 전개해 수많은 의병을 학살·체포하였다. 이후 의병 일부는 만주와 연해주로 이동해 무장 독립 투쟁을 이어 갔다.</p>
+  <h4>의열 투쟁</h4>
+  <p>장지연은 「시일야방성대곡」을 기고하였고, 민영환은 자결로 항거하였다. 나철·오기호는 자신회를 조직해 을사오적 처단을 시도했고, 이재명은 이완용을 습격하였다. 1908년 <mark>장인환·전명운</mark>이 미국 샌프란시스코에서 외교 고문 스티븐스를 사살했고, 1909년 <mark>안중근</mark>이 만주 하얼빈에서 을사늑약을 주도한 <mark>이토 히로부미</mark>를 처단하였다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'을미의병이 일어난 계기로 옳은 것은?', choices:['을미사변과 단발령','을사늑약 체결','헤이그 특사 파견','군대 해산'], answer:0, explain:'1895년 을미사변이 일어나고 단발령이 시행되자 유생들이 의병을 일으켰다(을미의병).'},
+    {type:'mc', q:'을사의병에서 크게 활약한 평민 의병장은?', choices:['신돌석','최익현','이인영','안중근'], answer:0, explain:'을사의병 당시 유생 최익현뿐 아니라 경북의 신돌석 등 평민 의병장도 크게 활약하였다.'},
+    {type:'mc', q:'정미의병이 거세진 계기로 옳은 것은?', choices:['고종의 강제 퇴위와 군대 해산','단발령 시행','을사늑약 체결','을미사변 발생'], answer:0, explain:'고종이 강제로 퇴위당하고 군대가 해산되자 해산 군인이 합류하면서 의병 운동이 더욱 거세졌다(정미의병).'},
+    {type:'mc', q:'13도 창의군이 전개한 작전은?', choices:['서울 진공 작전','남한 대토벌 작전','거문도 점령','위화도 회군'], answer:0, explain:'이인영을 총사령관으로 한 13도 창의군은 서울 진공 작전을 전개했으나 일본군에 막혀 실패하였다(1908).'},
+    {type:'mc', q:'일제의 "남한 대토벌" 작전에 대한 설명으로 옳은 것은?', choices:['1909년 호남 의병을 학살하고 체포한 작전이다','대한 제국이 의병을 직접 진압한 작전이다','1894년 동학 농민군을 진압한 작전이다','삼별초를 진압한 작전이다'], answer:0, explain:'서울 진공 작전 실패 후에도 끝까지 항쟁한 호남 의병을 일제가 1909년 "남한 대토벌" 작전으로 학살·체포하였다.'},
+    {type:'mc', q:'1909년 만주 하얼빈에서 이토 히로부미를 처단한 인물은?', choices:['안중근','장인환','전명운','이재명'], answer:0, explain:'안중근은 1909년 만주 하얼빈에서 을사늑약 체결을 주도한 이토 히로부미를 처단하였다.'},
+    {type:'mc', q:'1908년 미국 샌프란시스코에서 외교 고문 스티븐스를 사살한 인물은?', choices:['장인환과 전명운','안중근과 이재명','나철과 오기호','민영환과 장지연'], answer:0, explain:'1908년 장인환과 전명운은 샌프란시스코에서 대한 제국의 외교 고문이었던 스티븐스를 사살하였다.'},
+    {type:'short', q:'정미의병이 을미의병·을사의병에 비해 전투력이 강화된 이유를 서술하시오.', keywords:['해산 군인'], model:'고종의 강제 퇴위와 군대 해산으로 해산된 군인 중 일부가 의병에 합류하면서 화력과 작전 수행 능력이 높아져 전국적인 항일 의병 전�쟁으로 발전하였다.'},
+    {type:'short', q:'안중근이 자신을 "전쟁 포로"라고 주장한 이유를 서술하시오.', keywords:['대한의병대','참모중장'], model:'안중근은 이토 히로부미를 개인이 아닌 대한 의병대 참모 중장, 즉 군인의 자격으로 저격한 것이라고 주장하며, 일본 재판소에서 형사범으로 재판받을 의무가 없는 전쟁 포로라고 주장하였다.'},
+    {type:'short', q:'1907년 이인영을 총사령관으로 결성되어 서울 진공 작전을 전개한 의병 연합 부대의 이름을 쓰시오.', keywords:['13도 창의군'], model:'13도 창의군'},
+  ]
+},
+{
+  id:'t30', num:'30', group:'C', period:'1896~1911', range:'p.144~147',
+  title:'외세의 침탈에 맞서 실력을 기르다',
+  summary:`
+  <h4>일본의 경제 침탈</h4>
+  <p>아관 파천 이후 열강이 최혜국 대우를 내세워 이권을 차지하였고, 일본은 철도 부지·군용지를 빼앗고 1908년 <mark>동양 척식 주식회사</mark>를 세웠다. 재정 고문 메가타가 추진한 <mark>화폐 정리 사업</mark>(1905)으로 백동화가 일본 제일 은행권으로 교환되며 화폐 부족(전황)이 발생해 한국인 상공업자가 큰 피해를 입었고, 일본은 막대한 차관을 강요하였다.</p>
+  <h4>경제적 구국 운동</h4>
+  <p>조선 상인은 상회사를 설립하고 <mark>황국 중앙 총상회</mark>를 조직해 상권을 수호하려 하였다. 1907년 대구에서 김광제·서상돈의 발의로 시작된 <mark>국채 보상 운동</mark>은 각계각층의 호응을 얻었으나 통일된 지휘 체계 부재와 일제의 탄압으로 중단되었다.</p>
+  <h4>애국 계몽 운동</h4>
+  <p>사회 진화론에 영향을 받은 지식인들이 실력 양성으로 국권을 수호하려는 애국 계몽 운동을 펼쳤다. <mark>보안회</mark>(1904)는 일본의 황무지 개간권 요구를 철회시켰고, 헌정 연구회(1905)를 계승한 <mark>대한 자강회</mark>(1906)는 언론·교육·산업 진흥을 강조하였다. <mark>대한매일신보</mark>는 베델을 발행인으로 내세워 일본의 검열을 피하며 국채 보상 운동을 주도하였다.</p>
+  <h4>신민회</h4>
+  <p>안창호, 양기탁 등이 조직한 <mark>신민회</mark>(1907)는 공화정에 바탕을 둔 근대 국가 건설을 목표로 한 비밀 결사로, 대성 학교·오산 학교로 민족 교육을 실시하고 남만주 삼원보에 독립운동 기지를 건설하였다. 신민회의 국내 조직은 일제가 날조한 <mark>105인 사건</mark>(1911)으로 와해되었다.</p>
+  `,
+  quiz:[
+    {type:'mc', q:'화폐 정리 사업에 대한 설명으로 옳은 것은?', choices:['백동화를 일본 제일 은행권으로 교환하게 하여 전황이 발생하였다','조선 정부가 독자적으로 새 화폐를 발행한 사업이다','국채 보상 운동의 일환으로 추진되었다','대한 제국이 일본에 차관을 갚기 위해 실시하였다'], answer:0, explain:'재정 고문 메가타가 추진한 화폐 정리 사업으로 백동화가 일본 제일 은행권으로 교환되며 화폐 부족(전황)이 발생해 한국 상공업자가 피해를 입었다.'},
+    {type:'mc', q:'국채 보상 운동에 대한 설명으로 옳은 것은?', choices:['대구에서 시작되어 각계각층이 참여한 모금 운동이다','정부가 주도한 관 주도 운동이다','일본이 적극 지원한 운동이다','성공적으로 국채를 모두 상환하였다'], answer:0, explain:'1907년 대구에서 김광제, 서상돈 등의 발의로 시작된 국채 보상 운동은 지식인, 여성, 상인 등 각계각층의 호응을 얻었다.'},
+    {type:'mc', q:'국채 보상 운동이 목적을 이루지 못하고 중단된 이유로 옳은 것은?', choices:['통일된 지휘 체계 부재와 일제의 탄압','정부의 적극적인 반대','참여자가 거의 없었기 때문','국채를 모두 상환하여 운동이 종료되었기 때문'], answer:0, explain:'국채 보상 운동은 통일된 지휘 체계가 없었고 일제의 탄압으로 목적을 이루지 못하고 중단되었다.'},
+    {type:'mc', q:'보안회의 활동으로 옳은 것은?', choices:['일본의 황무지 개간권 요구를 철회시켰다','신민회를 결성하였다','동학 농민군을 지원하였다','독립문을 건립하였다'], answer:0, explain:'보안회(1904)는 러일 전쟁 중 일본이 황무지 개간권을 요구하자 반대 운동을 주도하여 끝내 철회시켰다.'},
+    {type:'mc', q:'대한매일신보에 대한 설명으로 옳은 것은?', choices:['영국인 베델을 발행인으로 내세워 일본의 검열을 피하였다','조선 정부가 발행한 순 한문 신문이다','일본 통감부가 발행을 주도하였다','을사오적이 창간하였다'], answer:0, explain:'대한매일신보는 영국인 베델을 발행인으로 내세워 일본의 검열을 피하며 국채 보상 운동을 주도하고 의병 투쟁을 알렸다.'},
+    {type:'mc', q:'신민회에 대한 설명으로 옳은 것은?', choices:['공화정을 지향한 비밀 결사로 남만주 삼원보에 독립운동 기지를 건설하였다','고종이 직접 조직한 황실 기구이다','을사오적이 중심이 된 친일 단체이다','전제 군주제 유지를 목표로 하였다'], answer:0, explain:'안창호, 양기탁 등이 조직한 신민회는 공화정에 바탕을 둔 근대 국가 건설을 목표로 한 비밀 결사로, 삼원보에 독립운동 기지를 건설하였다.'},
+    {type:'mc', q:'신민회가 와해되는 계기가 된 사건은?', choices:['105인 사건','을사늑약 체결','국채 보상 운동 실패','보안회 해체'], answer:0, explain:'신민회의 국내 조직은 1911년 일제가 데라우치 총독 암살 미수 사건을 조작한 105인 사건으로 와해되었다.'},
+    {type:'short', q:'국채 보상 운동이 일어난 배경과 그 의의를 서술하시오.', keywords:['차관','국권 수호'], model:'일본의 차관 강요로 대한 제국의 재정이 악화되자, 국민이 성금을 모아 일본에 진 빚을 갚고 국권을 지키자는 국채 보상 운동이 일어났다. 이는 각계각층이 자발적으로 참여한 국권 수호 운동으로서 의의가 있다.'},
+    {type:'short', q:'신민회가 국내 활동에서 국외 독립운동 기지 건설로 노선을 병행하게 된 이유를 서술하시오.', keywords:['일제의 탄압'], model:'국권 피탈의 위기감이 고조되고 일제의 탄압이 심해지자 신민회는 국내 활동의 한계를 느끼고 남만주 삼원보에 독립 전쟁을 위한 기지를 건설하는 등 무장 투쟁 노선도 함께 추진하였다.'},
+    {type:'short', q:'1905년 일본인 재정 고문 메가타가 추진하여 백동화를 일본 제일 은행권으로 교환하게 한 사업의 이름을 쓰시오.', keywords:['화폐 정리 사업'], model:'화폐 정리 사업'},
+  ]
+},
+{
+  id:'t31', num:'31', group:'C', period:'개항 ~ 1910년대', range:'p.148~151',
+  title:'개항 이후 사회와 문화가 변화하다',
+  summary:`
+  <h4>근대 시설의 도입</h4>
+  <p>교통 분야에서는 1899년 한성에 <mark>전차</mark>가 운행되었고, 일본이 경인선(1899)·경부선(1905)·경의선(1906)을 부설해 운영권을 가져갔다. 통신은 우정총국(1884)이 갑신정변으로 폐지되었다가 1895년 재개되었고 전신·전화가 가설되었다. 의료는 최초의 서양 병원인 <mark>광혜원(제중원)</mark>이 1885년 설립되었다.</p>
+  <h4>사회 문화의 변화</h4>
+  <p>의식주에서 양복·양장·서양식 건물이 등장하였다. 갑신정변의 인민 평등권, 동학 농민 운동의 노비 문서 소각, 갑오개혁의 신분 차별 철폐로 <mark>근대적 평등의식</mark>이 확대되었다. 1898년 한성 여성들이 「<mark>여권통문</mark>」을 발표하여 여성의 참정권·노동권·교육권을 주장하였고, 독립 협회는 자유 민권 운동을 전개하였다.</p>
+  <h4>국어와 한국사 연구</h4>
+  <p>1907년 설립된 <mark>국문 연구소</mark>에서 주시경, 지석영 등이 한글을 이론적으로 체계화하였다. 신채호는 「<mark>독사신론</mark>」을 집필해 민족주의 역사학의 방향을 제시하고 『이순신전』 등 민족 영웅의 전기를 저술하였다.</p>
+  <h4>종교계와 문화·예술의 변화</h4>
+  <p>손병희는 동학을 <mark>천도교</mark>로 개칭하였고, 나철은 대종교를 창시하였다. 문학에서는 『혈의 누』 같은 신소설과 「해에게서 소년에게」 같은 신체시가 등장하였고, 1908년 최초의 서양식 극장인 <mark>원각사</mark>가 세워졌다.</p>
+  <div class="note">특집: 해외 이주 — 농토를 찾아 <b>간도</b>로, 독립운동의 거점인 <b>연해주</b>(신한촌)로, 1902년부터 사탕수수 농장 노동자로 <b>하와이</b>로 이주가 이어졌다. 하와이 이주 남성들은 사진을 교환하며 혼인한 "사진 신부"를 맞이하기도 하였다.</div>
+  `,
+  quiz:[
+    {type:'mc', q:'1899년 서울(한성)에서 운행을 시작한 교통수단은?', choices:['전차','경부선 열차','버스','전화'], answer:0, explain:'한성 전기 회사가 발전소를 세우고, 1899년 서대문과 청량리 사이에 전차를 운행하였다.'},
+    {type:'mc', q:'경인선·경부선·경의선 철도 부설의 주체로 옳은 것은?', choices:['일본이 부설하여 운영권을 가져갔다','조선 정부가 독자적으로 부설하였다','청이 부설하였다','미국이 부설하였다'], answer:0, explain:'철도 부설은 대부분 일본에 의해 이루어졌으며, 일본은 경인선(1899), 경부선(1905), 경의선(1906)을 가설하고 운영권도 가져갔다.'},
+    {type:'mc', q:'여권통문(1898)에서 주장한 권리로 옳은 것은?', choices:['여성의 참정권, 노동권, 교육권','여성의 병역 의무','여성의 토지 소유 금지','여성의 출가 금지'], answer:0, explain:'1898년 한성의 여성들이 여권통문을 발표하여 여성의 참정권, 노동권, 교육권을 주장하였다.'},
+    {type:'mc', q:'주시경이 체계화한 것으로 옳은 것은?', choices:['한글의 이론과 띄어쓰기','신소설 문학 양식','천도교 교리','광무개혁의 토지 제도'], answer:0, explain:'주시경은 국문 연구소를 중심으로 우리 문자에 "한글"이라는 이름을 붙이고 띄어쓰기 등을 정립해 한글을 이론적으로 체계화하였다.'},
+    {type:'mc', q:'신채호가 저술하여 민족주의 역사학의 방향을 제시한 책은?', choices:['독사신론','조선책략','서유견문','갑신일록'], answer:0, explain:'신채호는 「독사신론」을 집필하여 왕조 중심의 역사관을 뛰어넘어 민족주의 역사학이 나아갈 방향을 제시하였다.'},
+    {type:'mc', q:'동학의 3대 교주 손병희가 동학을 개편하여 만든 종교는?', choices:['천도교','대종교','개신교','천주교'], answer:0, explain:'동학의 3대 교주 손병희는 교단을 정비하여 천도교로 개칭하고 계몽 운동을 전개하였다.'},
+    {type:'mc', q:'하와이로 이주한 한국인 남성들이 사진 교환을 통해 혼인한 여성을 일컫는 말은?', choices:['사진 신부','보빙 신부','집강 신부','만민 신부'], answer:0, explain:'하와이 이주 한국인 남성들은 신부를 구하기 어려워 고국에 사진을 보내 결혼을 약속하였는데, 이렇게 하와이로 간 신부를 "사진 신부"라 한다.'},
+    {type:'short', q:'근대 시설의 도입이 가져온 긍정적 측면과 부정적 측면을 서술하시오.', keywords:['생활 편리','수탈의 도구'], model:'근대 시설은 전차, 전화, 병원 등으로 사람들의 일상생활을 편리하게 하였으나, 철도처럼 제국주의 침략과 수탈의 도구로 이용되기도 하였다.'},
+    {type:'short', q:'개항 이후 평등의식이 확대되는 과정을 서술하시오.', keywords:['노비제 폐지','여권통문'], model:'갑신정변의 인민 평등권 시도와 동학 농민 운동의 노비 문서 소각, 갑오개혁의 신분 차별·노비제 폐지를 거쳐 평등 의식이 확대되었고, 1898년 여권통문 발표로 여성의 권리 주장으로까지 이어졌다.'},
+    {type:'short', q:'한국인들이 사탕수수 농장 노동자로 모집되어 1902년부터 처음 이주를 시작한 해외 지역을 쓰시오.', keywords:['하와이'], model:'하와이'},
+  ]
+},
+];
+
+/* ===================== 유틸 ===================== */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function buildQuizSession(topic){
+  const items = shuffle(topic.quiz).map(q=>{
+    if(q.type==='mc'){
+      const order = shuffle(q.choices.map((c,i)=>i));
+      const choices = order.map(i=>q.choices[i]);
+      const answer = order.indexOf(q.answer);
+      return {type:'mc', q:q.q, choices, answer, explain:q.explain, picked:null, done:false};
+    }
+    return {type:'short', q:q.q, keywords:q.keywords, model:q.model, revealed:false, marked:null, done:false};
+  });
+  return {topicId:topic.id, idx:0, items};
+}
+const GROUP_INFO = {
+  A:{name:'1부 · 선사 시대 ~ 고조선', range:'p.6~13', color:'var(--A)'},
+  B:{name:'2부 · 고려의 성립과 변동', range:'p.22~33', color:'var(--B)'},
+  C:{name:'3부 · 근대 국가 수립의 노력', range:'p.108~151', color:'var(--C)'},
+};
+
+/* ===================== 앱 ===================== */
+const App = {
+  state:{view:'home', topicId:null, quiz:null, completed:{}},
+  init(){ this.render(); },
+  topicById(id){ return TOPICS.find(t=>t.id===id); },
+
+  goHome(){ this.state.view='home'; this.state.topicId=null; this.state.quiz=null; this.render(); window.scrollTo(0,0); },
+  openTopic(id){ this.state.view='topic'; this.state.topicId=id; this.render(); window.scrollTo(0,0); },
+  startQuiz(id){
+    const t = this.topicById(id);
+    this.state.view='quiz';
+    this.state.quiz = buildQuizSession(t);
+    this.render(); window.scrollTo(0,0);
+  },
+  retryQuiz(){ this.startQuiz(this.state.quiz.topicId); },
+
+  selectMC(choiceIdx){
+    const q = this.state.quiz.items[this.state.quiz.idx];
+    if(q.done) return;
+    q.picked = choiceIdx; q.done = true;
+    this.render();
+  },
+  revealShort(){
+    const q = this.state.quiz.items[this.state.quiz.idx];
+    q.revealed = true; this.render();
+  },
+  markShort(correct){
+    const q = this.state.quiz.items[this.state.quiz.idx];
+    q.marked = correct; q.done = true; this.render();
+  },
+  next(){
+    const quiz = this.state.quiz;
+    if(quiz.idx < quiz.items.length-1){ quiz.idx++; this.render(); window.scrollTo(0,0); }
+    else { this.finish(); }
+  },
+  finish(){
+    const quiz = this.state.quiz;
+    let mcTotal=0, mcCorrect=0, shortTotal=0, shortCorrect=0;
+    quiz.items.forEach(q=>{
+      if(q.type==='mc'){ mcTotal++; if(q.picked===q.answer) mcCorrect++; }
+      else { shortTotal++; if(q.marked) shortCorrect++; }
+    });
+    this.state.completed[quiz.topicId] = true;
+    this.state.view='result';
+    this.state.result = {mcTotal,mcCorrect,shortTotal,shortCorrect,total:mcTotal+shortTotal,score:mcCorrect+shortCorrect};
+    this.render(); window.scrollTo(0,0);
+  },
+
+  render(){
+    const app = document.getElementById('app');
+    if(this.state.view==='home') app.innerHTML = this.renderHome();
+    else if(this.state.view==='topic') app.innerHTML = this.renderTopic();
+    else if(this.state.view==='quiz') app.innerHTML = this.renderQuiz();
+    else if(this.state.view==='result') app.innerHTML = this.renderResult();
+  },
+
+  renderHome(){
+    const doneCount = Object.keys(this.state.completed).length;
+    const total = TOPICS.length;
+    const groups = ['A','B','C'];
+    let groupsHtml = groups.map(g=>{
+      const info = GROUP_INFO[g];
+      const items = TOPICS.filter(t=>t.group===g);
+      const cards = items.map(t=>{
+        const stamp = this.state.completed[t.id] ? '<div class="stamp-mini">학습완료</div>' : '';
+        return `<button class="tcard" onclick="App.openTopic('${t.id}')">
+          <div class="num" style="background:${info.color}">${t.num}</div>
+          <div class="tx"><div class="ttl">${t.title}</div><div class="sub">${t.range} · ${t.period}</div></div>
+          <div class="chev">›</div>${stamp}
+        </button>`;
+      }).join('');
+      return `<div class="group">
+        <div class="group-head"><span class="dot" style="background:${info.color}"></span><h2>${info.name}</h2><span class="range">${info.range}</span></div>
+        <div class="cardlist">${cards}</div>
+      </div>`;
+    }).join('');
+    return `
+    <div class="hero">
+      <span class="eyebrow">2026학년도 2학기 지필평가 대비</span>
+      <h1>한국사 개념완성</h1>
+      <p class="lead">주제를 눌러 개념정리를 확인하고, 끝에서 퀴즈로 마무리하세요. 형광펜 표시는 교과서 강조 부분입니다.</p>
+      <div class="progress-pill">
+        <span class="num">${doneCount}/${total}</span>
+        <div class="progress-bar-bg"><div class="progress-bar-fg" style="width:${(doneCount/total*100)||0}%"></div></div>
+      </div>
+    </div>
+    ${groupsHtml}
+    <div class="footer-note">총 ${total}개 주제 · 주제별 퀴즈 10문항(객관식 7 · 서술형 3)</div>
+    `;
+  },
+
+  renderTopic(){
+    const t = this.topicById(this.state.topicId);
+    const info = GROUP_INFO[t.group];
+    return `
+    <div class="topbar"><button class="backbtn" onclick="App.goHome()">‹</button><span class="tb-title">${info.name}</span></div>
+    <div class="topic-head">
+      <span class="badge"><b>주제 ${t.num}</b>${t.range}</span>
+      <h1>${t.title}</h1>
+      <div class="period">${t.period}</div>
+    </div>
+    <div class="summary">${t.summary}</div>
+    <div class="fab-wrap"><button class="fab" onclick="App.startQuiz('${t.id}')">✏️ 개념확인 퀴즈 풀기 (10문항)</button></div>
+    `;
+  },
+
+  renderQuiz(){
+    const quiz = this.state.quiz;
+    const t = this.topicById(quiz.topicId);
+    const q = quiz.items[quiz.idx];
+    const n = quiz.items.length;
+    const pct = ((quiz.idx)/n*100);
+    let body = '';
+    if(q.type==='mc'){
+      const opts = q.choices.map((c,i)=>{
+        let cls='opt';
+        if(q.done){
+          if(i===q.answer) cls+=' correct';
+          else if(i===q.picked) cls+=' wrong';
+        }
+        return `<button class="${cls}" ${q.done?'disabled':''} onclick="App.selectMC(${i})">${c}</button>`;
+      }).join('');
+      const explain = q.done ? `<div class="explain">${q.explain}</div>` : '';
+      body = `<span class="qtype mc">객관식</span><div class="qtext">${q.q}</div>${opts}${explain}`;
+    } else {
+      const reveal = q.revealed ? `
+        <div class="kwbox">
+          <div class="modelans"><b>예시 답안</b><br>${q.model}</div>
+          <div class="kwchips">${q.keywords.map(k=>`<span class="kwchip">#${k}</span>`).join('')}</div>
+          ${q.done ? `<div class="explain">${q.marked? '자기채점: 맞았어요 ✅' : '자기채점: 다시 학습할게요 🔁'}</div>` :
+          `<div class="selfcheck">
+            <button class="scbtn yes" onclick="App.markShort(true)">핵심어 다 썼어요 ✅</button>
+            <button class="scbtn no" onclick="App.markShort(false)">놓쳤어요 🔁</button>
+          </div>`}
+        </div>` : `<button class="nextbtn" style="margin-top:6px;background:var(--vermilion)" onclick="App.revealShort()">정답 및 핵심어 확인</button>`;
+      body = `<span class="qtype short">서술형·단답형</span><div class="qtext">${q.q}</div><textarea class="shortbox" placeholder="여기에 내 답을 적어보세요 (핵심어를 꼭 포함!)"></textarea>${reveal}`;
+    }
+    const canNext = q.done;
+    return `
+    <div class="topbar"><button class="backbtn" onclick="App.openTopic('${t.id}')">‹</button><span class="tb-title">${t.title}</span></div>
+    <div class="quiz-progress">
+      <div class="qp-row"><span class="lbl">진행도</span><span class="lbl"><b>${quiz.idx+1}</b> / ${n}</span></div>
+      <div class="qp-bar-bg"><div class="qp-bar-fg" style="width:${pct}%"></div></div>
+    </div>
+    <div class="qcard">${body}</div>
+    <div class="nextbar"><button class="nextbtn" ${canNext?'':'disabled'} onclick="App.next()">${quiz.idx===n-1 ? '결과 보기' : '다음 문제'}</button></div>
+    `;
+  },
+
+  renderResult(){
+    const r = this.state.result;
+    const t = this.topicById(this.state.quiz.topicId);
+    return `
+    <div class="topbar"><button class="backbtn" onclick="App.openTopic('${t.id}')">‹</button><span class="tb-title">${t.title}</span></div>
+    <div class="result">
+      <div class="seal"><span>학습<br>완료</span></div>
+      <div class="score">${r.score} / ${r.total}</div>
+      <div class="scorelbl">‘${t.title}’ 개념확인 퀴즈 결과</div>
+      <div class="breakdown">
+        <div class="bd-item"><b>${r.mcCorrect}/${r.mcTotal}</b>객관식</div>
+        <div class="bd-item"><b>${r.shortCorrect}/${r.shortTotal}</b>서술·단답</div>
+      </div>
+      <div class="resbtns">
+        <button class="resbtn primary" onclick="App.retryQuiz()">다시 풀기</button>
+        <button class="resbtn ghost" onclick="App.openTopic('${t.id}')">개념정리 다시 보기</button>
+        <button class="resbtn ghost" onclick="App.goHome()">주제 목록으로</button>
+      </div>
+    </div>
+    `;
+  },
+};
+window.onload = () => App.init();
+</script>
+</body>
+</html>
